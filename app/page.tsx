@@ -6,6 +6,7 @@ import { CaseStudiesSection } from "@/components/case-studies-section"
 import { MarketInsightsSection } from "@/components/market-insights-section"
 import { AssessmentWizard } from "@/components/assessment-wizard"
 import { AIChatSection } from "@/components/ai-chat-section"
+import { RiskAssessmentSection } from "@/components/risk-assessment-section"
 import { InquiryForm } from "@/components/inquiry-form"
 import VisitorTracker from "@/components/visitor-tracker"
 
@@ -20,6 +21,7 @@ export default function Page() {
         <FlowStudioHero />
         <ProblemCardsSection />
         <CaseStudiesSection />
+        <RiskAssessmentSection />
         <MarketInsightsSection />
         <AssessmentWizard />
         <AIChatSection />
