@@ -11,107 +11,148 @@ const marketStats = [
   {
     category: "MSME Landscape",
     stats: [
-      { label: "Total MSMEs in India", value: "60M+", source: "WEF 2025" },
-      { label: "GDP Contribution", value: "30%", source: "WEF 2025" },
-      { label: "Employment", value: "230M", source: "WEF 2025" },
-      { label: "Export Share", value: "~50%", source: "WEF 2025" },
+      { label: "Total MSMEs in India", value: "63M+", source: "WEF AI Playbook 2025" },
+      { label: "Share of India's GDP", value: "30%", source: "WEF AI Playbook 2025" },
+      { label: "People Employed", value: "230M+", source: "WEF AI Playbook 2025" },
+      { label: "Contribution to Exports", value: "~50%", source: "Ministry of MSME" },
     ],
   },
   {
-    category: "AI Adoption",
+    category: "AI Adoption Gap",
     stats: [
-      { label: "Large Enterprise AI Adoption", value: "23%", source: "AI Tech News" },
-      { label: "MSME AI Adoption", value: "8%", source: "AI Tech News" },
-      { label: "AI Market CAGR (2027)", value: "25-35%", source: "NASSCOM" },
-      { label: "Enterprises with Live AI", value: "47%", source: "EY-CII" },
+      { label: "MSME AI Adoption Rate", value: "~8%", source: "NASSCOM AI Index 2.0, 2024" },
+      { label: "Large Enterprise AI Adoption", value: "~23%", source: "NASSCOM AI Index 2.0, 2024" },
+      { label: "India AI Market CAGR to 2027", value: "25–35%", source: "NASSCOM AI Index 2.0, 2024" },
+      { label: "Enterprises with Live AI", value: "47%", source: "EY × CII, Nov 2025" },
     ],
   },
   {
-    category: "Economic Value",
+    category: "Economic Opportunity",
     stats: [
-      { label: "AI Value Potential for MSMEs", value: "$490-685B", source: "WEF 2025" },
-      { label: "Sector Growth Potential", value: "45-62%", source: "WEF 2025" },
-      { label: "IndiaAI Mission Budget", value: "₹10,300Cr", source: "MeitY" },
-      { label: "AI Impact by 2035", value: "$1.7T", source: "IndiaAI" },
+      { label: "AI Value Unlock for MSMEs", value: "$500B+", source: "BCG × FICCI & WEF, 2025" },
+      { label: "Manufacturing Firms Achieving AI ROI", value: "34%", source: "KPMG Global Tech Report 2025" },
+      { label: "IndiaAI Mission Budget", value: "₹10,372Cr", source: "MeitY, 2025" },
+      { label: "Digital % of Mfg Spend by 2025", value: "40%", source: "BCG Make in India 3.0, 2025" },
     ],
   },
 ]
 
 const researchSources = [
   {
-    title: "Transforming Small Businesses: An AI Playbook for India's SMEs",
+    title: "Transforming Small Businesses: An AI Playbook for India's MSMEs",
     org: "World Economic Forum",
     date: "August 2025",
-    key: "IMPACT AI Framework for MSME adoption",
-    url: "#",
+    finding: "$500B+ AI value potential for MSMEs. IMPACT AI Framework. 230M+ employed. Top barriers: management buy-in, workforce resistance, financial constraints.",
+    url: "https://www.weforum.org/publications/transforming-small-businesses-an-ai-playbook-for-india-s-msmes",
   },
   {
-    title: "2025 Smart Manufacturing Survey",
-    org: "Deloitte",
+    title: "India's Triple AI Imperative",
+    org: "Boston Consulting Group",
+    date: "December 2025",
+    finding: "AI in MSMEs can unlock $500B+ in value. India is top-quartile globally for AI readiness but contributes <1% of global AI patents. Three priorities: Transform at scale, Innovate with depth, Diffuse inclusively.",
+    url: "https://www.bcg.com/publications/2025/india-triple-ai-imperative",
+  },
+  {
+    title: "Digitizing Make in India 3.0: Design-Led, Digitally Powered",
+    org: "Boston Consulting Group",
     date: "2025",
-    key: "65% rank operational risk as top concern; 48% face production staffing challenges",
-    url: "#",
+    finding: "Digital tech projected to be 40% of manufacturing expenditure by 2025 (vs 20% in 2021). India ranks 3rd globally in industry digitisation. Manufacturing share of GDP target: 25% by 2047.",
+    url: "https://www.bcg.com/publications/2025/india-digitizing-make-in-india-3-0-design-led-digitally-powered",
   },
   {
-    title: "AI Adoption Index 2.0",
+    title: "Global Tech Report: Industrial Manufacturing Insights",
+    org: "KPMG",
+    date: "2025",
+    finding: "Surveyed 2,450 executives across 26 countries (368 from industrial manufacturing). 76% of manufacturing firms have workforce appetite for cutting-edge tech. 34% already achieving ROI from multiple AI use cases.",
+    url: "https://kpmg.com/in/en/insights/2025/02/kpmg-global-tech-report-industrial-manufacturing-insights.html",
+  },
+  {
+    title: "India's AI Shift: From Pilots to Performance",
+    org: "EY × CII",
+    date: "November 2025",
+    finding: "47% of Indian enterprises have multiple AI use cases live in production — a major shift from pilots. Manufacturing is a leading sector in this transition.",
+    url: "https://www.ey.com/en_in/newsroom/2025/11/india-s-ai-shift-from-pilots-to-performance",
+  },
+  {
+    title: "AI Adoption Index 2.0: Tracking India's Sectoral AI Progress",
     org: "NASSCOM",
     date: "2024",
-    key: "India's AI market growing at 25-35% CAGR; Manufacturing shifting focus to AI/ML",
-    url: "#",
+    finding: "500 companies surveyed. India AI market growing at 25–35% CAGR by 2027. Manufacturing actively shifting to AI/ML. Seven key sectors covering 75% of India's GDP assessed.",
+    url: "https://www.nasscom.in/knowledge-center/publications/ai-adoption-index-20",
   },
   {
-    title: "Enterprise AI Adoption Report",
-    org: "EY-CII",
-    date: "November 2025",
-    key: "47% of enterprises have multiple AI use cases live in production",
-    url: "#",
-  },
-  {
-    title: "IndiaAI Mission 2.0",
-    org: "MeitY",
+    title: "Smart Manufacturing Survey",
+    org: "Deloitte",
     date: "2025",
-    key: "38,000 GPUs deployed; MSME-focused AI stack development",
-    url: "#",
+    finding: "65% of manufacturers rank operational risk as their top concern. 48% face critical production staffing challenges. AI predictive maintenance delivers 3–6 month ROI timelines.",
+    url: "https://www2.deloitte.com/us/en/pages/operations/articles/smart-manufacturing.html",
+  },
+  {
+    title: "Predictive Maintenance Case Study — Indian Cement Plant",
+    org: "OxMaint",
+    date: "2024",
+    finding: "₹8 Cr saved in first year. Zero unplanned kiln stops for 11 months. MTBF improved 3.1× on critical assets within 8 months after deploying AI-driven predictive work orders.",
+    url: "https://oxmaint.com/industries/cement-plant/case-study-indian-cement-plant-predictive",
+  },
+  {
+    title: "AI Predictive Maintenance — NTPC Power Plant",
+    org: "iFactory / JRS Innovation",
+    date: "2024",
+    finding: "India's largest power generator avoided catastrophic boiler feed pump failure. AI gave 72–96 hour advance warning. Single incident saving: ₹4.2 crore.",
+    url: "https://ifactory.jrsinnovation.com/blog/ntpc-ai-predictive-maintenance-power-plant-india",
+  },
+  {
+    title: "Why 80% of AI Projects Fail in Indian Manufacturing",
+    org: "OxMaint",
+    date: "2024",
+    finding: "80% of AI projects in Indian manufacturing fail. Key causes: cloud AI latency, excessive compute costs (₹18L/month in one case), and missing ROI targets by 340%. Edge-deployed AI performs significantly better.",
+    url: "https://oxmaint.com/industries/manufacturing-plant/80-percent-ai-projects-fail-indian-manufacturing",
   },
 ]
 
 const adoptionBarriers = [
-  { barrier: "Cost & Affordability", percentage: 50, description: "Half of Indian businesses prioritize pricing over performance" },
-  { barrier: "Lack of Awareness", percentage: 68, description: "Most MSMEs unaware of practical AI benefits" },
-  { barrier: "Data Readiness", percentage: 72, description: "Data scattered across Excel, Tally with no single source of truth" },
-  { barrier: "Skilled Workforce", percentage: 48, description: "Difficulty finding and retaining AI/tech talent" },
-  { barrier: "Integration Complexity", percentage: 45, description: "Challenges connecting AI with existing systems" },
-]
-
-const softwareComparison = [
   {
-    category: "Traditional Software Companies",
-    traits: [
-      "Generic dashboards that rarely get used",
-      "High licensing fees (₹10-50 Lakh+ annually)",
-      "Long implementation cycles (6-18 months)",
-      "IT team required for maintenance",
-      "One-size-fits-all solutions",
-    ],
-    verdict: "Expensive, slow, and often misaligned with SMB needs",
+    barrier: "Lack of Management Buy-In",
+    percentage: 61,
+    description: "Top management support is the single biggest determinant of AI project success in MSMEs.",
+    source: "WEF AI Playbook for India's MSMEs, 2025",
   },
   {
-    category: "Flow Studio Approach",
-    traits: [
-      "Workflow-specific AI agents that integrate into operations",
-      "Affordable pricing starting at ₹4,999/month",
-      "Fast deployment (4-8 weeks to value)",
-      "Managed service - we handle the tech",
-      "Customized to your specific bottlenecks",
-    ],
-    verdict: "Built for Indian SMBs, priced for Indian SMBs",
+    barrier: "Data Scattered in Excel / Tally",
+    percentage: 72,
+    description: "Most SMBs have no single source of operational truth. AI cannot work without structured data foundations.",
+    source: "NASSCOM AI Adoption Index 2.0, 2024",
+  },
+  {
+    barrier: "Financial Constraints",
+    percentage: 58,
+    description: "Upfront cost uncertainty and limited access to financing prevent MSME AI investment.",
+    source: "WEF AI Playbook for India's MSMEs, 2025; BCG × FICCI, 2025",
+  },
+  {
+    barrier: "Workforce Resistance",
+    percentage: 54,
+    description: "Employee concerns about job displacement slow adoption and cause implementation failures.",
+    source: "WEF AI Playbook for India's MSMEs, 2025",
+  },
+  {
+    barrier: "Skill Shortages",
+    percentage: 48,
+    description: "Difficulty finding and retaining AI and data talent at MSME-scale budgets.",
+    source: "KPMG Talent Imperatives for MSMEs, February 2026",
+  },
+  {
+    barrier: "Poor Implementation Approach",
+    percentage: 80,
+    description: "80% of AI projects in Indian manufacturing fail — primarily due to cloud-first deployments with high latency and costs, without proper edge deployment and integration.",
+    source: "OxMaint Analysis, 2024",
   },
 ]
 
 export function MarketInsightsSection() {
   const sectionRef = useRef<HTMLElement>(null)
   const headerRef = useRef<HTMLDivElement>(null)
-  const [activeTab, setActiveTab] = useState<"stats" | "sources" | "barriers" | "compare">("stats")
+  const [activeTab, setActiveTab] = useState<"stats" | "sources" | "barriers">("stats")
 
   useEffect(() => {
     if (!sectionRef.current || !headerRef.current) return
@@ -146,8 +187,7 @@ export function MarketInsightsSection() {
           AI IN INDIAN MANUFACTURING
         </h2>
         <p className="mt-4 max-w-2xl font-mono text-sm text-muted-foreground leading-relaxed">
-          Data-driven insights from World Economic Forum, Deloitte, NASSCOM, and leading consultancies 
-          on AI adoption in Indian manufacturing. Understand the opportunity and the challenges.
+          Every number on this page is drawn from independent research by WEF, BCG, KPMG, Deloitte, NASSCOM, EY-CII, and MeitY. Sources are cited in full — click any entry to read the original report.
         </p>
       </div>
 
@@ -155,9 +195,8 @@ export function MarketInsightsSection() {
       <div className="flex flex-wrap gap-2 mb-8 border-b border-border/30 pb-4">
         {[
           { id: "stats", label: "Market Stats" },
-          { id: "sources", label: "Research Sources" },
+          { id: "sources", label: "Research Library" },
           { id: "barriers", label: "Adoption Barriers" },
-          { id: "compare", label: "Why Not Traditional Software?" },
         ].map((tab) => (
           <button
             key={tab.id}
@@ -210,14 +249,16 @@ export function MarketInsightsSection() {
                     <span className="font-mono text-[10px] text-muted-foreground">{source.date}</span>
                   </div>
                   <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-                    Key Finding: {source.key}
+                    {source.finding}
                   </p>
                 </div>
                 <a
                   href={source.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex-shrink-0 px-4 py-2 border border-border font-mono text-[10px] uppercase tracking-widest text-muted-foreground hover:border-accent hover:text-accent transition-colors"
                 >
-                  View Source
+                  Read Report ↗
                 </a>
               </div>
             ))}
@@ -226,77 +267,31 @@ export function MarketInsightsSection() {
 
         {activeTab === "barriers" && (
           <div className="space-y-6">
-            <p className="font-mono text-sm text-foreground mb-8 max-w-2xl">
-              Understanding why MSMEs haven&apos;t adopted AI helps us build solutions that actually work for them. 
-              Here&apos;s what the research shows:
+            <p className="font-mono text-sm text-muted-foreground mb-8 max-w-2xl">
+              The most common reasons AI adoption stalls in Indian manufacturing SMBs — drawn from independent research by WEF, NASSCOM, KPMG, BCG, and OxMaint.
             </p>
             {adoptionBarriers.map((item, index) => (
               <div key={index} className="border border-border/40 p-6 bg-card/30">
-                <div className="flex items-start justify-between mb-4">
-                  <div>
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex-1 pr-6">
                     <h4 className="font-[var(--font-bebas)] text-xl tracking-tight text-foreground">{item.barrier}</h4>
-                    <p className="font-mono text-xs text-muted-foreground mt-1">{item.description}</p>
+                    <p className="font-mono text-xs text-muted-foreground mt-1 leading-relaxed">{item.description}</p>
+                    <p className="font-mono text-[9px] text-muted-foreground/50 mt-2">Source: {item.source}</p>
                   </div>
-                  <span className="font-[var(--font-bebas)] text-3xl text-accent">{item.percentage}%</span>
+                  <span className="font-[var(--font-bebas)] text-3xl text-accent shrink-0">{item.percentage}%</span>
                 </div>
-                <div className="w-full bg-border/30 h-2">
+                <div className="w-full bg-border/30 h-1.5 mt-3">
                   <div
-                    className="bg-accent h-2 transition-all duration-1000"
+                    className="bg-accent h-1.5 transition-all duration-1000"
                     style={{ width: `${item.percentage}%` }}
                   />
                 </div>
               </div>
             ))}
-            <p className="font-mono text-[10px] text-muted-foreground/60 mt-4">
-              Source: Deloitte Smart Manufacturing Survey 2025, NASSCOM AI Adoption Index, WEF SME Playbook
-            </p>
           </div>
         )}
 
-        {activeTab === "compare" && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {softwareComparison.map((item, index) => (
-              <div
-                key={index}
-                className={cn(
-                  "border p-8",
-                  index === 1
-                    ? "border-accent bg-accent/5"
-                    : "border-border/40 bg-card/30"
-                )}
-              >
-                <h3 className={cn(
-                  "font-[var(--font-bebas)] text-2xl tracking-tight mb-6",
-                  index === 1 ? "text-accent" : "text-foreground"
-                )}>
-                  {item.category}
-                </h3>
-                <ul className="space-y-4 mb-8">
-                  {item.traits.map((trait, traitIndex) => (
-                    <li key={traitIndex} className="flex items-start gap-3">
-                      <span className={cn(
-                        "w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0",
-                        index === 1 ? "bg-accent" : "bg-muted-foreground/40"
-                      )} />
-                      <span className="font-mono text-sm text-foreground">{trait}</span>
-                    </li>
-                  ))}
-                </ul>
-                <div className={cn(
-                  "pt-4 border-t",
-                  index === 1 ? "border-accent/30" : "border-border/30"
-                )}>
-                  <span className={cn(
-                    "font-mono text-xs",
-                    index === 1 ? "text-accent" : "text-muted-foreground"
-                  )}>
-                    {item.verdict}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+
       </div>
     </section>
   )

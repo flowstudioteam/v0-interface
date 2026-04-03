@@ -5,6 +5,8 @@ import { ScrambleTextOnHover } from "@/components/scramble-text"
 import { SplitFlapText, SplitFlapAudioProvider } from "@/components/split-flap-text"
 import { AnimatedNoise } from "@/components/animated-noise"
 import { BitmapChevron } from "@/components/bitmap-chevron"
+import { siteConfig } from "@/lib/site-config"
+import { trackCalendarClick } from "@/lib/use-tracker"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 
@@ -59,7 +61,7 @@ export function FlowStudioHero() {
   }, [])
 
   return (
-    <section ref={sectionRef} id="hero" className="relative min-h-screen flex items-center pl-6 md:pl-28 pr-6 md:pr-12">
+    <section ref={sectionRef} id="hero" className="relative min-h-screen flex items-center pl-6 md:pl-28 pr-6 md:pr-12 py-20 md:py-24">
       <AnimatedNoise opacity={0.03} />
 
       {/* Left vertical label */}
@@ -79,8 +81,8 @@ export function FlowStudioHero() {
         </div>
 
         <SplitFlapAudioProvider>
-          <div className="relative">
-            <SplitFlapText text="FLOW STUDIO" speed={80} />
+          <div className="relative pb-2">
+            <SplitFlapText text="FLOWSTUDIO" speed={80} />
           </div>
         </SplitFlapAudioProvider>
 
@@ -117,16 +119,36 @@ export function FlowStudioHero() {
             <BitmapChevron className="transition-transform duration-[400ms] ease-in-out group-hover:rotate-45" />
           </a>
           <a
-            href="#problems"
+            href={siteConfig.calendarLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => trackCalendarClick("hero_cta")}
             className="group inline-flex items-center gap-3 border border-foreground/20 px-6 py-4 font-mono text-xs uppercase tracking-widest text-foreground hover:border-accent hover:text-accent transition-all duration-200"
           >
-            <ScrambleTextOnHover text="Explore Bottlenecks" as="span" duration={0.6} />
+            <ScrambleTextOnHover text="Book a Call" as="span" duration={0.6} />
           </a>
           <a
             href="#case-studies"
             className="font-mono text-xs uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors duration-200"
           >
             View Case Studies
+          </a>
+        </div>
+
+        {/* Contact info strip */}
+        <div className="mt-10 flex flex-wrap items-center gap-6">
+          <a
+            href={`mailto:${siteConfig.contact.email}`}
+            className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground hover:text-accent transition-colors"
+          >
+            {siteConfig.contact.email}
+          </a>
+          <span className="text-border hidden sm:block">|</span>
+          <a
+            href={`tel:${siteConfig.contact.phone.replace(/[^+\d]/g, "")}`}
+            className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground hover:text-accent transition-colors"
+          >
+            {siteConfig.contact.phoneDisplay}
           </a>
         </div>
       </div>
