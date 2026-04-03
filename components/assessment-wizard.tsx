@@ -2,6 +2,8 @@
 
 import { useState, useRef, useEffect } from "react"
 import { cn } from "@/lib/utils"
+import { siteConfig } from "@/lib/site-config"
+import { trackCalendarClick, trackEvent, getStoredSessionId } from "@/lib/use-tracker"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 
@@ -149,6 +151,7 @@ export function AssessmentWizard() {
   const [currentStep, setCurrentStep] = useState(1)
   const [formData, setFormData] = useState<FormData>(initialFormData)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const totalSteps = 6
 
@@ -190,10 +193,41 @@ export function AssessmentWizard() {
     }
   }
 
-  const handleSubmit = () => {
-    // In production, this would send to an API
-    console.log("[v0] Assessment submitted:", formData)
-    setIsSubmitted(true)
+  const handleSubmit = async () => {
+    if (isSubmitting) return
+    setIsSubmitting(true)
+    try {
+      await fetch("/api/assessment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sessionId: getStoredSessionId(),
+          companyName: formData.companyName,
+          contactName: formData.fullName,
+          email: formData.email,
+          phone: formData.phone,
+          industry: formData.industry,
+          companySize: formData.employeeCount,
+          annualRevenue: formData.turnoverRange,
+          location: `${formData.city}, ${formData.state}`,
+          problems: formData.selectedProblems,
+          budgetRange: formData.maxInvestment,
+          expectedRoi: formData.paybackPeriod,
+          timeline: formData.timeline,
+          currentTools: formData.currentSolutions ? Object.values(formData.currentSolutions).join(", ") : null,
+          decisionMakers: formData.decisionMaker,
+          outcomes: formData.desiredOutcomes,
+          workingStyle: formData.preferredChannels.join(", "),
+          rawAnswers: formData,
+        }),
+      })
+      trackEvent("assessment_submitted", { problems: formData.selectedProblems })
+    } catch {
+      // Silent — still show thank you
+    } finally {
+      setIsSubmitting(false)
+      setIsSubmitted(true)
+    }
   }
 
   const canProceed = () => {
@@ -324,15 +358,15 @@ export function AssessmentWizard() {
           ) : (
             <button
               onClick={handleSubmit}
-              disabled={!canProceed()}
+              disabled={!canProceed() || isSubmitting}
               className={cn(
                 "px-6 py-3 font-mono text-xs uppercase tracking-widest transition-all duration-200",
-                canProceed()
+                canProceed() && !isSubmitting
                   ? "bg-accent text-accent-foreground hover:bg-accent/90"
                   : "bg-muted text-muted-foreground cursor-not-allowed"
               )}
             >
-              Submit Assessment
+              {isSubmitting ? "Submitting..." : "Submit Assessment"}
             </button>
           )}
         </div>
@@ -1049,18 +1083,31 @@ function ThankYouScreen({ formData, onReset }: { formData: FormData; onReset: ()
 
         <div className="flex flex-wrap gap-4">
           <a
-            href="#case-studies"
+            href={siteConfig.calendarLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => trackCalendarClick("thankyou_cta")}
             className="px-6 py-3 bg-accent text-accent-foreground font-mono text-xs uppercase tracking-widest hover:bg-accent/90 transition-colors"
           >
-            View Similar Case Studies
+            Book Your Plant Walkthrough →
+          </a>
+          <a
+            href={`mailto:${siteConfig.email}`}
+            className="px-6 py-3 border border-border font-mono text-xs uppercase tracking-widest text-muted-foreground hover:border-accent hover:text-accent transition-colors"
+          >
+            Email the Team
           </a>
           <button
             onClick={onReset}
-            className="px-6 py-3 border border-border font-mono text-xs uppercase tracking-widest text-muted-foreground hover:border-foreground hover:text-foreground transition-colors"
+            className="px-6 py-3 border border-border/40 font-mono text-xs uppercase tracking-widest text-muted-foreground/60 hover:border-foreground hover:text-foreground transition-colors"
           >
             Start New Assessment
           </button>
         </div>
+
+        <p className="mt-6 font-mono text-[10px] text-muted-foreground/60 uppercase tracking-widest">
+          Or reach us directly: {siteConfig.email} &nbsp;·&nbsp; {siteConfig.phone}
+        </p>
       </div>
     </section>
   )

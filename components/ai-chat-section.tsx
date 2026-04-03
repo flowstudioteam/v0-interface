@@ -2,6 +2,8 @@
 
 import { useState, useRef, useEffect } from "react"
 import { cn } from "@/lib/utils"
+import { siteConfig } from "@/lib/site-config"
+import { trackCalendarClick, getStoredSessionId } from "@/lib/use-tracker"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 
@@ -302,6 +304,20 @@ export function AIChatSection() {
       }
       setMessages((prev) => [...prev, assistantMessage])
       setIsTyping(false)
+
+      // Log interaction to DB (fire-and-forget)
+      const isSuggested = suggestedQuestions.includes(content)
+      fetch("/api/chat-log", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sessionId: getStoredSessionId(),
+          question: content,
+          answer: response.slice(0, 500),
+          questionType: isSuggested ? "suggested" : "custom",
+        }),
+        keepalive: true,
+      }).catch(() => {})
     }, 1500)
   }
 
@@ -491,6 +507,27 @@ For a personalized consultation, complete our **free AI Readiness Assessment** a
               </button>
             </form>
           </div>
+        </div>
+
+        {/* Contact / calendar CTA below chat */}
+        <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-4 border border-border/30 p-5">
+          <div className="flex-1">
+            <p className="font-mono text-xs text-muted-foreground">
+              Ready to talk to a human? Our team is available to answer plant-specific questions.
+            </p>
+            <p className="font-mono text-[10px] text-muted-foreground/60 mt-1">
+              {siteConfig.email} &nbsp;·&nbsp; {siteConfig.phone}
+            </p>
+          </div>
+          <a
+            href={siteConfig.calendarLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => trackCalendarClick("chat_section")}
+            className="shrink-0 px-5 py-2.5 bg-accent text-accent-foreground font-mono text-xs uppercase tracking-widest hover:bg-accent/90 transition-colors"
+          >
+            Book a call →
+          </a>
         </div>
       </div>
     </section>
