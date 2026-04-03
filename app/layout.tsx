@@ -18,9 +18,9 @@ const ibmPlexMono = IBM_Plex_Mono({
 const bebasNeue = Bebas_Neue({ weight: "400", subsets: ["latin"], variable: "--font-bebas" })
 
 export const metadata: Metadata = {
-  title: "SIGNAL — Experimental Creative Studio",
+  title: "FlowStudio — AI Systems for Indian Manufacturing SMBs",
   description:
-    "Interface studies in controlled environments. We design systems that behave, not just screens that display.",
+    "We build and deploy AI systems for manufacturing SMBs in India. Production control, predictive maintenance, quality control, and planning solutions.",
   generator: "v0.app",
   icons: {
     icon: [
