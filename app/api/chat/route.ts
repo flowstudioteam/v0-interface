@@ -31,11 +31,11 @@ export async function POST(req: NextRequest) {
   try {
     const { messages, sessionId }: { messages: Message[]; sessionId?: string } = await req.json()
 
-    const apiKey = process.env.OPENAI_API_KEY
+    const apiKey = process.env.ZAI_API_KEY
     if (!apiKey) {
       return new Response(
-        `data: {"error":"OpenAI API key not configured"}\n\n`,
-        { status: 200, headers: { "Content-Type": "text/event-stream" } }
+        `0:"AI service not configured. Please add your ZAI_API_KEY in project settings."\n`,
+        { status: 200, headers: { "Content-Type": "text/plain" } }
       )
     }
 
@@ -46,14 +46,15 @@ export async function POST(req: NextRequest) {
           VALUES (${sessionId}, 'user', ${lastUser.content.slice(0, 2000)})`.catch(() => {})
     }
 
-    const openaiRes = await fetch("https://api.openai.com/v1/chat/completions", {
+    // ZAI is OpenAI-compatible — only the base URL and model differ
+    const zaiRes = await fetch("https://api.zai.ai/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: "gpt-4o-mini",
+        model: "zai-1",
         stream: true,
         max_tokens: 600,
         messages: [{ role: "system", content: SYSTEM_PROMPT }, ...messages],
@@ -61,20 +62,22 @@ export async function POST(req: NextRequest) {
       signal: req.signal,
     })
 
-    if (!openaiRes.ok) {
-      const err = await openaiRes.text()
-      console.error("[chat] OpenAI error:", err)
+    if (!zaiRes.ok) {
+      const err = await zaiRes.text()
+      console.error("[chat] ZAI error:", err)
       return new Response(
         `0:"Sorry, the AI service is temporarily unavailable. Please try again."\n`,
         { status: 200, headers: { "Content-Type": "text/plain" } }
       )
     }
 
-    // Stream OpenAI SSE → client in AI SDK data-stream format ("0:..." lines)
+    const providerRes = zaiRes
+
+    // Stream ZAI SSE → client in AI SDK data-stream format ("0:..." lines)
     let fullText = ""
     const stream = new ReadableStream({
       async start(controller) {
-        const reader = openaiRes.body!.getReader()
+        const reader = providerRes.body!.getReader()
         const decoder = new TextDecoder()
         let buf = ""
 

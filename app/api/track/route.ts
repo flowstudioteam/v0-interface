@@ -25,20 +25,28 @@ export async function POST(req: NextRequest) {
     if (type === "visit") {
       const { page, utm_source, utm_medium, utm_campaign } = data ?? {}
 
-      // Upsert visitor — session_id is unique so ON CONFLICT just bumps last_seen_at
-      await sql`
-        INSERT INTO visitors (
-          session_id, ip_address, user_agent, referrer,
-          utm_source, utm_medium, utm_campaign, device_type
-        )
-        VALUES (
-          ${sessionId}, ${ip}, ${userAgent}, ${referer ?? null},
-          ${utm_source ?? null}, ${utm_medium ?? null}, ${utm_campaign ?? null},
-          ${deviceType}
-        )
-        ON CONFLICT (session_id) DO UPDATE
-          SET last_seen_at = NOW()
+      // Insert visitor if session not seen before; update last_seen_at if it exists.
+      // Using INSERT ... WHERE NOT EXISTS avoids needing a UNIQUE constraint.
+      const existing = await sql`
+        SELECT id FROM visitors WHERE session_id = ${sessionId} LIMIT 1
       `
+      if (existing.length === 0) {
+        await sql`
+          INSERT INTO visitors (
+            session_id, ip_address, user_agent, referrer,
+            utm_source, utm_medium, utm_campaign, device_type
+          )
+          VALUES (
+            ${sessionId}, ${ip}, ${userAgent}, ${referer ?? null},
+            ${utm_source ?? null}, ${utm_medium ?? null}, ${utm_campaign ?? null},
+            ${deviceType}
+          )
+        `
+      } else {
+        await sql`
+          UPDATE visitors SET last_seen_at = NOW() WHERE session_id = ${sessionId}
+        `
+      }
 
       await sql`
         INSERT INTO page_events (session_id, event_type, event_label, metadata)
