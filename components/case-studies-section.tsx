@@ -9,68 +9,72 @@ gsap.registerPlugin(ScrollTrigger)
 
 const caseStudies = [
   {
-    id: "steel-plant",
-    company: "Major Steel Manufacturer",
-    location: "Gujarat, India",
-    industry: "Steel & Metal",
-    challenge: "Surface Defect Detection",
-    problem: "Lost ₹15 crore annually to undetected surface defects that reached customers, causing returns and reputation damage.",
-    solution: "Deployed AI-powered computer vision system for real-time surface inspection across production lines.",
-    results: [
-      { metric: "Defect Detection", value: "98.5%", improvement: "+45%" },
-      { metric: "Annual Savings", value: "₹10 Cr", improvement: "ROI in 8mo" },
-      { metric: "Customer Returns", value: "↓68%", improvement: "First year" },
-    ],
-    source: "OxMaint Case Study 2024",
-    timeline: "8 months to full ROI",
-  },
-  {
-    id: "cement-producer",
-    company: "Regional Cement Producer",
+    id: "cement-plant",
+    company: "Top Indian Cement Producer",
     location: "Rajasthan, India",
     industry: "Cement & Building Materials",
     challenge: "Predictive Maintenance",
-    problem: "Reactive maintenance causing 45+ hours of unplanned downtime monthly, costing ₹12 crore annually.",
-    solution: "Implemented IoT sensors + AI predictive maintenance system across kilns and grinding mills.",
+    problem: "Unplanned kiln shutdowns costing ₹8+ crore annually. Reactive maintenance approach with no advance warning on equipment degradation across kilns and grinding mills.",
+    solution: "AI-driven predictive work order system integrated with existing sensors. Sensor readings converted to actionable maintenance tasks before failures occur.",
     results: [
-      { metric: "Downtime Reduction", value: "72%", improvement: "First year" },
-      { metric: "Annual Savings", value: "₹8 Cr", improvement: "Ongoing" },
-      { metric: "Equipment Life", value: "+25%", improvement: "Extended" },
+      { metric: "Annual Savings", value: "₹8 Cr", improvement: "First year" },
+      { metric: "Unplanned Kiln Stops", value: "0", improvement: "11 months straight" },
+      { metric: "MTBF Improvement", value: "3.1×", improvement: "On critical assets in 8 months" },
     ],
-    source: "OxMaint Case Study 2024",
-    timeline: "6 months to full deployment",
+    source: "OxMaint — Indian Cement Plant Predictive Maintenance Case Study, 2024",
+    sourceUrl: "https://oxmaint.com/industries/cement-plant/case-study-indian-cement-plant-predictive",
+    timeline: "8 months to full results",
+  },
+  {
+    id: "ntpc-power",
+    company: "NTPC — India's Largest Power Generator",
+    location: "India",
+    industry: "Power Generation",
+    challenge: "Critical Equipment Failure Prevention",
+    problem: "Risk of catastrophic boiler feed pump failure with no early warning system. A failure would trigger forced outage, generation loss, and costly emergency repairs.",
+    solution: "AI predictive maintenance system monitoring vibration, temperature, and performance patterns across critical rotating equipment.",
+    results: [
+      { metric: "Advance Warning", value: "72–96h", improvement: "Before critical failure" },
+      { metric: "Single Incident Saving", value: "₹4.2 Cr", improvement: "Pump + outage + generation loss" },
+      { metric: "Maintenance Approach", value: "Reactive → Planned", improvement: "Structural shift" },
+    ],
+    source: "iFactory / JRS Innovation — NTPC AI Predictive Maintenance Case Study, 2024",
+    sourceUrl: "https://ifactory.jrsinnovation.com/blog/ntpc-ai-predictive-maintenance-power-plant-india",
+    timeline: "Implemented within scheduled maintenance window",
   },
   {
     id: "auto-parts",
-    company: "Tier-2 Auto Parts Supplier",
-    location: "Pune, India",
+    company: "Automotive SME Cluster",
+    location: "Chennai, India",
     industry: "Automotive Components",
-    challenge: "Quality Control & Rejection Rate",
-    problem: "72.4% PPM rejection rate causing customer penalties and rework costs of ₹6 lakh/month.",
-    solution: "AI-based statistical process control with real-time alerts and automated quality gates.",
+    challenge: "Downtime & Quality Rejection Rate",
+    problem: "High PPM rejection rates and frequent machine downtime causing customer penalties and missed OEM delivery commitments.",
+    solution: "Integrated ERP-lean-AI model for automotive SMEs: AI-based statistical process control with real-time quality gates and production scheduling optimisation.",
     results: [
-      { metric: "Rejection Rate", value: "↓58%", improvement: "PPM reduced" },
-      { metric: "Monthly Savings", value: "₹4.2L", improvement: "Direct" },
-      { metric: "OEM Rating", value: "A→A+", improvement: "Upgraded" },
+      { metric: "Downtime Reduction", value: "88.9%", improvement: "Measured result" },
+      { metric: "Rejection Rate (PPM)", value: "↓72.4%", improvement: "Verified reduction" },
+      { metric: "OEM Compliance", value: "Restored", improvement: "Delivery penalties eliminated" },
     ],
-    source: "Nature.com Manufacturing Study",
-    timeline: "4 months to measurable impact",
+    source: "Nature.com Scientific Reports — Integrated ERP-Lean Model for Automotive SMEs, Chennai, 2025",
+    sourceUrl: "https://www.nature.com/articles/s41598-025-18619-1.pdf",
+    timeline: "Measurable impact within 4 months",
   },
   {
-    id: "pharma-sme",
-    company: "Pharma Manufacturing SME",
-    location: "Hyderabad, India",
-    industry: "Pharmaceutical",
-    challenge: "Production Planning & Inventory",
-    problem: "30% capacity loss due to poor production-sales alignment and ₹2.5 crore tied in excess inventory.",
-    solution: "AI demand forecasting integrated with production scheduling and inventory optimization.",
+    id: "electronics-vision",
+    company: "Electronics Manufacturer",
+    location: "India",
+    industry: "Electronics Manufacturing",
+    challenge: "Defect Escape Rate — AI Vision Inspection",
+    problem: "High defect escape rate across 9 production lines leading to field failures, costly recalls, and customer trust erosion.",
+    solution: "AI computer vision inspection system deployed across all 9 production lines. System processes 200 circuit boards per minute and detects defects as small as 0.3mm.",
     results: [
-      { metric: "Capacity Utilization", value: "+28%", improvement: "Increase" },
-      { metric: "Inventory Reduction", value: "₹1.8Cr", improvement: "Working capital freed" },
-      { metric: "Stockout Incidents", value: "↓82%", improvement: "Near zero" },
+      { metric: "Defect Detection Accuracy", value: "99.8%", improvement: "Measured" },
+      { metric: "Defect Escape Rate", value: "0.2%", improvement: "Down from industry average" },
+      { metric: "Recall Costs Prevented", value: "$8M", improvement: "Estimated first year" },
     ],
-    source: "Industry Implementation Report",
-    timeline: "5 months to optimization",
+    source: "OxMaint — AI Vision Inspection Defect Detection Quality Case Study, 2024",
+    sourceUrl: "https://oxmaint.com/industries/manufacturing-plant/ai-vision-inspection-defect-detection-quality-case-study",
+    timeline: "ROI visible within 6 months",
   },
 ]
 
@@ -115,8 +119,7 @@ export function CaseStudiesSection() {
           REAL RESULTS FROM INDIAN PLANTS
         </h2>
         <p className="mt-4 max-w-2xl font-mono text-sm text-muted-foreground leading-relaxed">
-          Verified outcomes from manufacturers who implemented AI solutions. These are not projections — 
-          these are measured results from live deployments.
+          Documented outcomes from published case studies by OxMaint, Nature.com Scientific Reports, and iFactory. Every result is sourced from independently published research — not internal projections.
         </p>
       </div>
 
@@ -176,10 +179,18 @@ export function CaseStudiesSection() {
                 </p>
               </div>
 
-              <div className="pt-4 border-t border-border/30">
+              <div className="pt-4 border-t border-border/30 flex flex-wrap items-center justify-between gap-2">
                 <span className="font-mono text-[9px] text-muted-foreground/60">
-                  Source: {activeCaseData.source} • Timeline: {activeCaseData.timeline}
+                  Timeline: {activeCaseData.timeline}
                 </span>
+                <a
+                  href={activeCaseData.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-mono text-[9px] text-muted-foreground/60 hover:text-accent transition-colors underline underline-offset-2"
+                >
+                  Source: {activeCaseData.source} ↗
+                </a>
               </div>
             </div>
           </div>
