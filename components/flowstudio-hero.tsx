@@ -59,7 +59,7 @@ export function FlowStudioHero() {
   }, [])
 
   return (
-    <section ref={sectionRef} id="hero" className="relative min-h-screen flex items-center pl-6 md:pl-28 pr-6 md:pr-12">
+    <section ref={sectionRef} id="hero" className="relative min-h-screen flex items-center pl-6 md:pl-28 pr-6 md:pr-12 py-20 md:py-24">
       <AnimatedNoise opacity={0.03} />
 
       {/* Left vertical label */}
@@ -79,8 +79,8 @@ export function FlowStudioHero() {
         </div>
 
         <SplitFlapAudioProvider>
-          <div className="relative">
-            <SplitFlapText text="FLOW STUDIO" speed={80} />
+          <div className="relative pb-2">
+            <SplitFlapText text="FLOWSTUDIO" speed={80} />
           </div>
         </SplitFlapAudioProvider>
 
