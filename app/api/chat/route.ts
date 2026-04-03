@@ -1,60 +1,134 @@
-import { streamText } from "ai"
-import { createOpenAI } from "@ai-sdk/openai"
+import { NextRequest } from "next/server"
 import { sql } from "@/lib/db"
-import type { Message } from "@ai-sdk/react"
 
 export const maxDuration = 30
 
-const SYSTEM_PROMPT = `You are the FlowStudio AI assistant — an expert on AI applications in Indian manufacturing, specifically for small and medium businesses (SMBs/MSMEs).
+type Message = { role: "user" | "assistant" | "system"; content: string }
 
-FlowStudio builds and deploys deep workflow-specific AI agents for manufacturing SMBs in India. The company focuses on the most painful operational bottlenecks: production control, predictive maintenance, quality control, and planning. Unlike SaaS vendors that sell generic dashboards, FlowStudio installs AI agents that integrate directly into plant operations.
+const SYSTEM_PROMPT = `You are the FlowStudio AI assistant — an expert on AI applications in Indian manufacturing for small and medium businesses (SMBs/MSMEs).
 
-When answering questions:
-- Be specific, data-backed, and cite real Indian manufacturing context
-- Reference verified sources: WEF AI Playbook for India SMEs (2025), Deloitte Smart Manufacturing Survey, NASSCOM AI Adoption Index, EY-CII reports
-- Give concrete ROI numbers where possible (e.g. "72% downtime reduction", "₹8 Cr saved annually")
-- Acknowledge the real barriers MSMEs face: cost sensitivity, scattered data in Excel/Tally, limited digital infrastructure, workforce concerns
-- Be honest about timelines — most implementations take 6–12 weeks for first results
-- When relevant, mention that FlowStudio offers a free plant audit: team@theraidflowstudio.co.in or +91 866 942 7514
-- Keep answers concise and practical — these are busy plant owners and managers
+FlowStudio builds and deploys deep workflow-specific AI agents for manufacturing SMBs in India, focusing on production control, predictive maintenance, quality control, and planning. Unlike generic SaaS vendors, FlowStudio installs AI agents that integrate directly into plant operations.
 
-Key facts to use:
-- India has 63+ million MSMEs contributing 30% of GDP
-- WEF estimates $490–685 billion in untapped AI value for Indian SMEs
-- MSME AI adoption is at ~8% vs 23% for large enterprises
-- Predictive maintenance ROI: typically 6–12 months payback
-- Computer vision quality inspection: 60–90% reduction in defect escape rate
-- India AI market growing at 25–35% CAGR
-- Government IndiaAI Mission: ₹10,300 Cr allocated for AI infrastructure`
+When answering:
+- Be specific and data-backed with Indian manufacturing context
+- Reference: WEF AI Playbook for India SMEs (2025), Deloitte Smart Manufacturing Survey, NASSCOM AI Adoption Index, EY-CII reports
+- Use concrete ROI numbers: "72% downtime reduction", "₹8 Cr saved annually"
+- Acknowledge real MSME barriers: cost sensitivity, data in Excel/Tally, limited digital infrastructure
+- Be honest about timelines — 6–12 weeks for first results
+- Mention FlowStudio's free plant audit: team@theraidflowstudio.co.in or +91 866 942 7514
+- Keep answers concise and practical for busy plant owners
 
-export async function POST(req: Request) {
-  const { messages, sessionId }: { messages: Message[]; sessionId?: string } = await req.json()
+Key facts:
+- India has 63+ million MSMEs, 30% of GDP
+- WEF: $490–685 billion untapped AI value for Indian SMEs
+- MSME AI adoption: ~8% vs 23% for large enterprises
+- Predictive maintenance payback: 6–12 months
+- Computer vision quality inspection: 60–90% defect escape rate reduction
+- India AI market: 25–35% CAGR
+- IndiaAI Mission: ₹10,300 Cr allocated`
 
-  // Log user message to DB (fire-and-forget)
-  const lastUserMsg = [...messages].reverse().find((m) => m.role === "user")
-  if (lastUserMsg && sessionId) {
-    sql`
-      INSERT INTO chat_interactions (session_id, role, content)
-      VALUES (${sessionId}, 'user', ${String(lastUserMsg.content).slice(0, 2000)})
-    `.catch(() => {})
+export async function POST(req: NextRequest) {
+  try {
+    const { messages, sessionId }: { messages: Message[]; sessionId?: string } = await req.json()
+
+    const apiKey = process.env.OPENAI_API_KEY
+    if (!apiKey) {
+      return new Response(
+        `data: {"error":"OpenAI API key not configured"}\n\n`,
+        { status: 200, headers: { "Content-Type": "text/event-stream" } }
+      )
+    }
+
+    // Log user message (fire-and-forget)
+    const lastUser = [...messages].reverse().find((m) => m.role === "user")
+    if (lastUser && sessionId) {
+      sql`INSERT INTO chat_interactions (session_id, role, content)
+          VALUES (${sessionId}, 'user', ${lastUser.content.slice(0, 2000)})`.catch(() => {})
+    }
+
+    const openaiRes = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: "gpt-4o-mini",
+        stream: true,
+        max_tokens: 600,
+        messages: [{ role: "system", content: SYSTEM_PROMPT }, ...messages],
+      }),
+      signal: req.signal,
+    })
+
+    if (!openaiRes.ok) {
+      const err = await openaiRes.text()
+      console.error("[chat] OpenAI error:", err)
+      return new Response(
+        `0:"Sorry, the AI service is temporarily unavailable. Please try again."\n`,
+        { status: 200, headers: { "Content-Type": "text/plain" } }
+      )
+    }
+
+    // Stream OpenAI SSE → client in AI SDK data-stream format ("0:..." lines)
+    let fullText = ""
+    const stream = new ReadableStream({
+      async start(controller) {
+        const reader = openaiRes.body!.getReader()
+        const decoder = new TextDecoder()
+        let buf = ""
+
+        try {
+          while (true) {
+            const { done, value } = await reader.read()
+            if (done) break
+            buf += decoder.decode(value, { stream: true })
+
+            const lines = buf.split("\n")
+            buf = lines.pop() ?? ""
+
+            for (const line of lines) {
+              const trimmed = line.trim()
+              if (!trimmed || trimmed === "data: [DONE]") continue
+              if (!trimmed.startsWith("data: ")) continue
+
+              try {
+                const parsed = JSON.parse(trimmed.slice(6))
+                const delta = parsed.choices?.[0]?.delta?.content
+                if (delta) {
+                  fullText += delta
+                  // Emit in AI SDK data-stream format so the client parser works
+                  const chunk = `0:${JSON.stringify(delta)}\n`
+                  controller.enqueue(new TextEncoder().encode(chunk))
+                }
+              } catch {
+                // skip malformed chunk
+              }
+            }
+          }
+        } finally {
+          controller.close()
+          // Log assistant reply
+          if (sessionId && fullText) {
+            sql`INSERT INTO chat_interactions (session_id, role, content)
+                VALUES (${sessionId}, 'assistant', ${fullText.slice(0, 2000)})`.catch(() => {})
+          }
+        }
+      },
+    })
+
+    return new Response(stream, {
+      headers: {
+        "Content-Type": "text/plain; charset=utf-8",
+        "X-Accel-Buffering": "no",
+        "Cache-Control": "no-cache",
+      },
+    })
+  } catch (err) {
+    console.error("[chat] error:", err)
+    return new Response(`0:"An error occurred. Please try again."\n`, {
+      status: 200,
+      headers: { "Content-Type": "text/plain" },
+    })
   }
-
-  const openai = createOpenAI({ compatibility: "strict" })
-
-  const result = streamText({
-    model: openai("gpt-4o-mini"),
-    system: SYSTEM_PROMPT,
-    messages,
-    maxTokens: 600,
-    onFinish: async ({ text }) => {
-      if (sessionId) {
-        await sql`
-          INSERT INTO chat_interactions (session_id, role, content)
-          VALUES (${sessionId}, 'assistant', ${text.slice(0, 2000)})
-        `.catch(() => {})
-      }
-    },
-  })
-
-  return result.toDataStreamResponse()
 }

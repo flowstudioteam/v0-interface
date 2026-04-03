@@ -1,10 +1,11 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
-import { useChat } from "@ai-sdk/react"
+import { useState, useRef, useEffect, useCallback } from "react"
 import { cn } from "@/lib/utils"
 import { siteConfig } from "@/lib/site-config"
 import { trackCalendarClick, getStoredSessionId } from "@/lib/use-tracker"
+
+type Message = { id: string; role: "user" | "assistant"; content: string }
 
 const suggestedQuestions = [
   "How is AI being used in Indian manufacturing today?",
@@ -19,26 +20,87 @@ const suggestedQuestions = [
 
 export function AIChatSection() {
   const [input, setInput] = useState("")
+  const [messages, setMessages] = useState<Message[]>([])
+  const [isLoading, setIsLoading] = useState(false)
   const [sessionId] = useState(() => getStoredSessionId())
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
-  const sectionRef = useRef<HTMLElement>(null)
-
-  const { messages, append, isLoading } = useChat({
-    api: "/api/chat",
-    body: { sessionId },
-  })
+  const abortRef = useRef<AbortController | null>(null)
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [messages])
 
-  const handleSend = (text: string) => {
+  const handleSend = useCallback(async (text: string) => {
     const trimmed = text.trim()
     if (!trimmed || isLoading) return
-    append({ role: "user", content: trimmed })
+
+    const userMsg: Message = { id: Date.now().toString(), role: "user", content: trimmed }
+    const assistantId = (Date.now() + 1).toString()
+    setMessages((prev) => [...prev, userMsg])
     setInput("")
-  }
+    setIsLoading(true)
+
+    // Optimistically add empty assistant bubble
+    setMessages((prev) => [...prev, { id: assistantId, role: "assistant", content: "" }])
+
+    abortRef.current = new AbortController()
+
+    try {
+      const history = [...messages, userMsg].map((m) => ({ role: m.role, content: m.content }))
+
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: history, sessionId }),
+        signal: abortRef.current.signal,
+      })
+
+      if (!res.ok || !res.body) throw new Error("Stream failed")
+
+      const reader = res.body.getReader()
+      const decoder = new TextDecoder()
+      let buffer = ""
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+        buffer += decoder.decode(value, { stream: true })
+
+        // AI SDK data stream format: lines starting with "0:" contain text deltas
+        const lines = buffer.split("\n")
+        buffer = lines.pop() ?? ""
+
+        for (const line of lines) {
+          if (line.startsWith('0:"')) {
+            try {
+              // Remove prefix "0:" then JSON-parse the quoted string delta
+              const delta: string = JSON.parse(line.slice(2))
+              setMessages((prev) =>
+                prev.map((m) =>
+                  m.id === assistantId ? { ...m, content: m.content + delta } : m
+                )
+              )
+            } catch {
+              // skip malformed chunk
+            }
+          }
+        }
+      }
+    } catch (err: unknown) {
+      if (err instanceof Error && err.name !== "AbortError") {
+        setMessages((prev) =>
+          prev.map((m) =>
+            m.id === assistantId
+              ? { ...m, content: "Sorry, something went wrong. Please try again." }
+              : m
+          )
+        )
+      }
+    } finally {
+      setIsLoading(false)
+    }
+  }, [isLoading, messages, sessionId])
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -47,13 +109,14 @@ export function AIChatSection() {
     }
   }
 
-  const getMessageText = (msg: (typeof messages)[0]) => {
-    return typeof msg.content === "string" ? msg.content : ""
+  const handleClear = () => {
+    abortRef.current?.abort()
+    setMessages([])
+    setIsLoading(false)
   }
 
   return (
     <section
-      ref={sectionRef}
       id="chat"
       className="relative min-h-screen flex items-start pl-6 md:pl-28 pr-6 md:pr-12 py-20 md:py-28"
     >
@@ -71,7 +134,7 @@ export function AIChatSection() {
           </h2>
           <p className="font-mono text-sm text-muted-foreground max-w-xl leading-relaxed">
             Real answers grounded in Indian manufacturing data — from WEF, Deloitte, NASSCOM, and
-            plant-level case studies. Powered by GPT-4o mini with a manufacturing-specific system prompt.
+            plant-level case studies. Powered by GPT-4o mini.
           </p>
         </div>
 
@@ -100,13 +163,9 @@ export function AIChatSection() {
             )}
 
             {messages.map((msg) => {
-              const text = getMessageText(msg)
               const isUser = msg.role === "user"
               return (
-                <div
-                  key={msg.id}
-                  className={cn("flex gap-3", isUser ? "justify-end" : "justify-start")}
-                >
+                <div key={msg.id} className={cn("flex gap-3", isUser ? "justify-end" : "justify-start")}>
                   {!isUser && (
                     <div className="shrink-0 w-6 h-6 bg-accent flex items-center justify-center mt-0.5">
                       <span className="font-mono text-[8px] text-accent-foreground font-bold">FS</span>
@@ -120,13 +179,14 @@ export function AIChatSection() {
                         : "bg-secondary text-secondary-foreground border border-border/20"
                     )}
                   >
-                    {text}
-                    {isLoading && msg === messages[messages.length - 1] && !isUser && (
-                      <span className="inline-flex gap-0.5 ml-1">
-                        <span className="w-1 h-1 bg-current rounded-full animate-bounce [animation-delay:0ms]" />
-                        <span className="w-1 h-1 bg-current rounded-full animate-bounce [animation-delay:150ms]" />
-                        <span className="w-1 h-1 bg-current rounded-full animate-bounce [animation-delay:300ms]" />
-                      </span>
+                    {msg.content || (
+                      isLoading && !isUser ? (
+                        <span className="inline-flex gap-1">
+                          <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce [animation-delay:0ms]" />
+                          <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce [animation-delay:150ms]" />
+                          <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce [animation-delay:300ms]" />
+                        </span>
+                      ) : null
                     )}
                   </div>
                   {isUser && (
@@ -137,22 +197,6 @@ export function AIChatSection() {
                 </div>
               )
             })}
-
-            {/* Typing indicator while waiting for response */}
-            {isLoading && messages[messages.length - 1]?.role === "user" && (
-              <div className="flex gap-3 justify-start">
-                <div className="shrink-0 w-6 h-6 bg-accent flex items-center justify-center">
-                  <span className="font-mono text-[8px] text-accent-foreground font-bold">FS</span>
-                </div>
-                <div className="bg-secondary border border-border/20 px-4 py-3">
-                  <span className="inline-flex gap-1">
-                    <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce [animation-delay:0ms]" />
-                    <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce [animation-delay:150ms]" />
-                    <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce [animation-delay:300ms]" />
-                  </span>
-                </div>
-              </div>
-            )}
             <div ref={messagesEndRef} />
           </div>
 
@@ -182,14 +226,13 @@ export function AIChatSection() {
             </button>
           </div>
 
-          {/* Context bar */}
           {messages.length > 0 && (
             <div className="border-t border-border/20 px-4 py-2 flex items-center justify-between">
               <span className="font-mono text-[10px] text-muted-foreground/50 uppercase tracking-widest">
                 {messages.length} message{messages.length !== 1 ? "s" : ""} — GPT-4o mini
               </span>
               <button
-                onClick={() => window.location.reload()}
+                onClick={handleClear}
                 className="font-mono text-[10px] text-muted-foreground/50 hover:text-muted-foreground uppercase tracking-widest transition-colors"
               >
                 Clear
