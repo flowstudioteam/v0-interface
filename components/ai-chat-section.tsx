@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect } from "react"
 import { useChat } from "@ai-sdk/react"
-import { DefaultChatTransport } from "ai"
 import { cn } from "@/lib/utils"
 import { siteConfig } from "@/lib/site-config"
 import { trackCalendarClick, getStoredSessionId } from "@/lib/use-tracker"
@@ -25,16 +24,10 @@ export function AIChatSection() {
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
 
-  const { messages, sendMessage, status } = useChat({
-    transport: new DefaultChatTransport({
-      api: "/api/chat",
-      prepareSendMessagesRequest: ({ id, messages }) => ({
-        body: { id, messages, sessionId },
-      }),
-    }),
+  const { messages, append, isLoading } = useChat({
+    api: "/api/chat",
+    body: { sessionId },
   })
-
-  const isLoading = status === "streaming" || status === "submitted"
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -43,7 +36,7 @@ export function AIChatSection() {
   const handleSend = (text: string) => {
     const trimmed = text.trim()
     if (!trimmed || isLoading) return
-    sendMessage({ text: trimmed })
+    append({ role: "user", content: trimmed })
     setInput("")
   }
 
@@ -55,11 +48,7 @@ export function AIChatSection() {
   }
 
   const getMessageText = (msg: (typeof messages)[0]) => {
-    if (!msg.parts) return ""
-    return msg.parts
-      .filter((p): p is { type: "text"; text: string } => p.type === "text")
-      .map((p) => p.text)
-      .join("")
+    return typeof msg.content === "string" ? msg.content : ""
   }
 
   return (
@@ -149,8 +138,8 @@ export function AIChatSection() {
               )
             })}
 
-            {/* Typing indicator when submitted but no streaming yet */}
-            {status === "submitted" && (
+            {/* Typing indicator while waiting for response */}
+            {isLoading && messages[messages.length - 1]?.role === "user" && (
               <div className="flex gap-3 justify-start">
                 <div className="shrink-0 w-6 h-6 bg-accent flex items-center justify-center">
                   <span className="font-mono text-[8px] text-accent-foreground font-bold">FS</span>
