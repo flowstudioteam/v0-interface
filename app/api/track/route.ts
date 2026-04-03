@@ -13,45 +13,59 @@ export async function POST(req: NextRequest) {
     const userAgent = req.headers.get("user-agent") ?? "unknown"
     const referer = req.headers.get("referer") ?? null
 
+    // Detect device type from user agent
+    const deviceType = userAgent
+      ? /Mobile|Android|iPhone|iPad/i.test(userAgent)
+        ? /iPad/i.test(userAgent)
+          ? "tablet"
+          : "mobile"
+        : "desktop"
+      : null
+
     if (type === "visit") {
-      // Upsert visitor record
       const { page, utm_source, utm_medium, utm_campaign } = data ?? {}
 
+      // Upsert visitor — session_id is unique so ON CONFLICT just bumps last_seen_at
       await sql`
-        INSERT INTO visitors (session_id, ip_address, user_agent, referrer, landing_page, utm_source, utm_medium, utm_campaign)
-        VALUES (${sessionId}, ${ip}, ${userAgent}, ${referer}, ${page ?? "/"}, ${utm_source ?? null}, ${utm_medium ?? null}, ${utm_campaign ?? null})
+        INSERT INTO visitors (
+          session_id, ip_address, user_agent, referrer,
+          utm_source, utm_medium, utm_campaign, device_type
+        )
+        VALUES (
+          ${sessionId}, ${ip}, ${userAgent}, ${referer ?? null},
+          ${utm_source ?? null}, ${utm_medium ?? null}, ${utm_campaign ?? null},
+          ${deviceType}
+        )
         ON CONFLICT (session_id) DO UPDATE
-          SET last_seen_at = NOW(),
-              page_views = visitors.page_views + 1
+          SET last_seen_at = NOW()
       `
 
-      // Log page event
       await sql`
-        INSERT INTO page_events (session_id, event_type, page_path, metadata)
-        VALUES (${sessionId}, 'pageview', ${page ?? "/"}, ${JSON.stringify({ userAgent, referer })})
+        INSERT INTO page_events (session_id, event_type, event_label, metadata)
+        VALUES (${sessionId}, 'page_view', ${page ?? "/"}, ${JSON.stringify({ userAgent, referer })})
       `
     }
 
     if (type === "event") {
-      const { event_type, page_path, metadata } = data ?? {}
+      const { event_type, metadata } = data ?? {}
 
       await sql`
-        INSERT INTO page_events (session_id, event_type, page_path, metadata)
-        VALUES (${sessionId}, ${event_type}, ${page_path ?? "/"}, ${JSON.stringify(metadata ?? {})})
+        INSERT INTO page_events (session_id, event_type, event_label, metadata)
+        VALUES (${sessionId}, ${event_type ?? "generic"}, ${data?.page_path ?? "/"}, ${JSON.stringify(metadata ?? {})})
       `
     }
 
     if (type === "calendar_click") {
-      const { source, page_path } = data ?? {}
+      const { source } = data ?? {}
 
       await sql`
-        INSERT INTO calendar_clicks (session_id, source, page_path)
-        VALUES (${sessionId}, ${source ?? "unknown"}, ${page_path ?? "/"})
+        INSERT INTO calendar_clicks (session_id, source_label)
+        VALUES (${sessionId}, ${source ?? "unknown"})
       `
 
       await sql`
-        INSERT INTO page_events (session_id, event_type, page_path, metadata)
-        VALUES (${sessionId}, 'calendar_click', ${page_path ?? "/"}, ${JSON.stringify({ source })})
+        INSERT INTO page_events (session_id, event_type, event_label, metadata)
+        VALUES (${sessionId}, 'calendar_click', ${source ?? "unknown"}, ${JSON.stringify(data ?? {})})
       `
     }
 

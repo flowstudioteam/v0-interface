@@ -32,35 +32,30 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    // Update visitor record with identified info
-    if (sessionId) {
-      await sql`
-        UPDATE visitors
-        SET email = ${email}, name = ${contactName}, company = ${companyName ?? null}, is_identified = TRUE
-        WHERE session_id = ${sessionId}
-      `
-    }
-
+    // Insert into assessment_submissions matching the actual schema columns
     await sql`
       INSERT INTO assessment_submissions (
         session_id,
         company_name,
-        contact_name,
+        full_name,
         email,
         phone,
         industry,
-        company_size,
-        annual_revenue,
-        location,
-        problems,
-        budget_range,
-        expected_roi,
+        employee_count,
+        turnover_range,
+        city,
+        selected_problems,
+        monthly_budget,
+        max_investment,
+        payback_period,
+        desired_outcomes,
         timeline,
-        current_tools,
-        decision_makers,
-        outcomes,
-        working_style,
-        raw_answers
+        primary_role,
+        decision_maker,
+        preferred_channels,
+        consent_to_contact,
+        wants_free_audit,
+        referral_source
       ) VALUES (
         ${sessionId ?? null},
         ${companyName ?? null},
@@ -71,23 +66,26 @@ export async function POST(req: NextRequest) {
         ${companySize ?? null},
         ${annualRevenue ?? null},
         ${location ?? null},
-        ${JSON.stringify(problems ?? [])},
+        ${problems ?? []},
         ${budgetRange ?? null},
         ${expectedRoi ?? null},
         ${timeline ?? null},
-        ${currentTools ?? null},
+        ${outcomes ?? []},
+        ${timeline ?? null},
+        ${rawAnswers?.primaryRole ?? null},
         ${decisionMakers ?? null},
-        ${JSON.stringify(outcomes ?? [])},
-        ${workingStyle ?? null},
-        ${JSON.stringify(rawAnswers ?? {})}
+        ${workingStyle ? [workingStyle] : []},
+        TRUE,
+        ${rawAnswers?.wantsFreeAudit ?? false},
+        ${rawAnswers?.referralSource ?? null}
       )
     `
 
-    // Log event
+    // Log the submission as a page event for unified analytics
     if (sessionId) {
       await sql`
-        INSERT INTO page_events (session_id, event_type, page_path, metadata)
-        VALUES (${sessionId}, 'assessment_submitted', '/', ${JSON.stringify({ email, companyName })})
+        INSERT INTO page_events (session_id, event_type, event_label, metadata)
+        VALUES (${sessionId}, 'assessment_submitted', 'assessment', ${JSON.stringify({ email, companyName })})
       `
     }
 

@@ -516,7 +516,7 @@ For a personalized consultation, complete our **free AI Readiness Assessment** a
               Ready to talk to a human? Our team is available to answer plant-specific questions.
             </p>
             <p className="font-mono text-[10px] text-muted-foreground/60 mt-1">
-              {siteConfig.email} &nbsp;·&nbsp; {siteConfig.phone}
+              {siteConfig.contact.email} &nbsp;·&nbsp; {siteConfig.contact.phoneDisplay}
             </p>
           </div>
           <a

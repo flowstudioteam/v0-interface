@@ -1092,7 +1092,7 @@ function ThankYouScreen({ formData, onReset }: { formData: FormData; onReset: ()
             Book Your Plant Walkthrough →
           </a>
           <a
-            href={`mailto:${siteConfig.email}`}
+            href={`mailto:${siteConfig.contact.email}`}
             className="px-6 py-3 border border-border font-mono text-xs uppercase tracking-widest text-muted-foreground hover:border-accent hover:text-accent transition-colors"
           >
             Email the Team
@@ -1106,7 +1106,7 @@ function ThankYouScreen({ formData, onReset }: { formData: FormData; onReset: ()
         </div>
 
         <p className="mt-6 font-mono text-[10px] text-muted-foreground/60 uppercase tracking-widest">
-          Or reach us directly: {siteConfig.email} &nbsp;·&nbsp; {siteConfig.phone}
+          Or reach us directly: {siteConfig.contact.email} &nbsp;·&nbsp; {siteConfig.contact.phoneDisplay}
         </p>
       </div>
     </section>

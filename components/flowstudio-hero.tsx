@@ -138,17 +138,17 @@ export function FlowStudioHero() {
         {/* Contact info strip */}
         <div className="mt-10 flex flex-wrap items-center gap-6">
           <a
-            href={`mailto:${siteConfig.email}`}
+            href={`mailto:${siteConfig.contact.email}`}
             className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground hover:text-accent transition-colors"
           >
-            {siteConfig.email}
+            {siteConfig.contact.email}
           </a>
           <span className="text-border hidden sm:block">|</span>
           <a
-            href={`tel:${siteConfig.phone.replace(/[^+\d]/g, "")}`}
+            href={`tel:${siteConfig.contact.phone.replace(/[^+\d]/g, "")}`}
             className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground hover:text-accent transition-colors"
           >
-            {siteConfig.phone}
+            {siteConfig.contact.phoneDisplay}
           </a>
         </div>
       </div>

@@ -41,7 +41,7 @@ export default function FlowStudioFooter() {
               </svg>
             </a>
             <a
-              href={`mailto:${siteConfig.email}`}
+              href={`mailto:${siteConfig.contact.email}`}
               onClick={() => trackEvent("email_click", { source: "footer_cta" })}
               className="inline-flex items-center justify-center gap-2 px-7 py-3.5 border border-border text-foreground font-mono text-xs tracking-[0.15em] uppercase transition-colors hover:border-accent hover:text-accent"
             >
@@ -114,20 +114,20 @@ export default function FlowStudioFooter() {
           <ul className="space-y-3">
             <li>
               <a
-                href={`mailto:${siteConfig.email}`}
+                href={`mailto:${siteConfig.contact.email}`}
                 onClick={() => trackEvent("email_click", { source: "footer_contact" })}
                 className="font-mono text-xs text-muted-foreground hover:text-accent transition-colors break-all"
               >
-                {siteConfig.email}
+                {siteConfig.contact.email}
               </a>
             </li>
             <li>
               <a
-                href={`tel:${siteConfig.phone.replace(/[^+\d]/g, "")}`}
+                href={`tel:${siteConfig.contact.phone.replace(/[^+\d]/g, "")}`}
                 onClick={() => trackEvent("phone_click", { source: "footer_contact" })}
                 className="font-mono text-xs text-muted-foreground hover:text-accent transition-colors"
               >
-                {siteConfig.phone}
+                {siteConfig.contact.phoneDisplay}
               </a>
             </li>
             <li className="pt-1">

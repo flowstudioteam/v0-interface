@@ -43,3 +43,6 @@ export const SITE_CONFIG = {
     ],
   },
 } as const
+
+/** Alias so components can import either `siteConfig` or `SITE_CONFIG` */
+export const siteConfig = SITE_CONFIG
