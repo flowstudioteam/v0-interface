@@ -134,7 +134,7 @@ export function AIChatSection() {
           </h2>
           <p className="font-mono text-sm text-muted-foreground max-w-xl leading-relaxed">
             Real answers grounded in Indian manufacturing data — from WEF, Deloitte, NASSCOM, and
-            plant-level case studies. Powered by GPT-4o mini.
+            plant-level case studies. Powered by ZAI.
           </p>
         </div>
 
@@ -229,7 +229,7 @@ export function AIChatSection() {
           {messages.length > 0 && (
             <div className="border-t border-border/20 px-4 py-2 flex items-center justify-between">
               <span className="font-mono text-[10px] text-muted-foreground/50 uppercase tracking-widest">
-                {messages.length} message{messages.length !== 1 ? "s" : ""} — GPT-4o mini
+                {messages.length} message{messages.length !== 1 ? "s" : ""} — ZAI
               </span>
               <button
                 onClick={handleClear}
