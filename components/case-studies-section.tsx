@@ -74,27 +74,6 @@ const caseStudies = [
   },
 ]
 
-const testimonials = [
-  {
-    quote: "We knew we were losing money somewhere, but Flow Studio showed us exactly where and how much. The ROI was clear within 3 months.",
-    author: "Plant Owner",
-    company: "Metal Fabrication Unit, Ludhiana",
-    avatar: "PO",
-  },
-  {
-    quote: "Unlike other vendors who sold us dashboards we never used, this actually integrated into how we work. My operators adopted it in days.",
-    author: "Production Head",
-    company: "Auto Parts Manufacturer, Chennai",
-    avatar: "PH",
-  },
-  {
-    quote: "The predictive maintenance alerts saved us from a major kiln failure. That single save paid for 2 years of the system.",
-    author: "Maintenance Manager",
-    company: "Cement Plant, Rajasthan",
-    avatar: "MM",
-  },
-]
-
 export function CaseStudiesSection() {
   const sectionRef = useRef<HTMLElement>(null)
   const headerRef = useRef<HTMLDivElement>(null)
@@ -232,33 +211,7 @@ export function CaseStudiesSection() {
         </div>
       )}
 
-      {/* Testimonials */}
-      <div className="mt-16">
-        <h3 className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground mb-8">
-          What Plant Owners Say
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {testimonials.map((testimonial, index) => (
-            <div
-              key={index}
-              className="border border-border/40 p-6 bg-background"
-            >
-              <p className="font-mono text-sm text-foreground leading-relaxed mb-6">
-                {`"${testimonial.quote}"`}
-              </p>
-              <div className="flex items-center gap-3 pt-4 border-t border-border/30">
-                <div className="w-10 h-10 bg-accent/20 flex items-center justify-center">
-                  <span className="font-mono text-xs text-accent">{testimonial.avatar}</span>
-                </div>
-                <div>
-                  <span className="font-mono text-xs text-foreground block">{testimonial.author}</span>
-                  <span className="font-mono text-[10px] text-muted-foreground">{testimonial.company}</span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+
     </section>
   )
 }
