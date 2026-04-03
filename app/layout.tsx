@@ -4,6 +4,7 @@ import { IBM_Plex_Sans, IBM_Plex_Mono, Bebas_Neue } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { SmoothScroll } from "@/components/smooth-scroll"
 import VisitorTracker from "@/components/visitor-tracker"
+import { SurveyBanner } from "@/components/survey-banner"
 import "./globals.css"
 
 const ibmPlexSans = IBM_Plex_Sans({
@@ -53,8 +54,11 @@ export default function RootLayout({
         className={`${ibmPlexSans.variable} ${bebasNeue.variable} ${ibmPlexMono.variable} font-sans antialiased overflow-x-hidden`}
       >
         <div className="noise-overlay" aria-hidden="true" />
+        <SurveyBanner />
         <VisitorTracker />
-        <SmoothScroll>{children}</SmoothScroll>
+        <SmoothScroll>
+          <div className="pt-9">{children}</div>
+        </SmoothScroll>
         <Analytics />
       </body>
     </html>
