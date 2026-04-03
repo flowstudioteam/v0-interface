@@ -4,88 +4,73 @@ import { sql } from "@/lib/db"
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
+
+    // All fields come straight from the assessment wizard's FormData shape
     const {
-      sessionId,
-      companyName,
-      contactName,
-      email,
-      phone,
-      industry,
-      companySize,
-      annualRevenue,
-      location,
-      problems,
-      budgetRange,
-      expectedRoi,
-      timeline,
-      currentTools,
-      decisionMakers,
-      outcomes,
-      workingStyle,
-      rawAnswers,
+      sessionId = null,
+      companyName = null,
+      turnoverRange = null,
+      city = null,
+      state = null,
+      industry = null,
+      employeeCount = null,
+      selectedProblems = [],
+      problemDescriptions = {},
+      problemLosses = {},
+      currentSolutions = {},
+      paybackPeriod = null,
+      maxInvestment = null,
+      monthlyBudget = null,
+      desiredOutcomes = [],
+      threeMonthGoal = null,
+      primaryRole = null,
+      decisionMaker = null,
+      preferredChannels = [],
+      implementationConstraints = [],
+      timeline = null,
+      fullName = null,
+      designation = null,
+      phone = null,
+      whatsapp = null,
+      email = null,
+      consentToContact = false,
+      wantsFreeAudit = false,
+      referralSource = null,
     } = body
 
-    if (!email || !contactName) {
+    if (!email || !fullName) {
       return NextResponse.json(
-        { ok: false, error: "email and contactName are required" },
+        { ok: false, error: "email and fullName are required" },
         { status: 400 }
       )
     }
 
-    // Insert into assessment_submissions matching the actual schema columns
     await sql`
       INSERT INTO assessment_submissions (
-        session_id,
-        company_name,
-        full_name,
-        email,
-        phone,
-        industry,
-        employee_count,
-        turnover_range,
-        city,
-        selected_problems,
-        monthly_budget,
-        max_investment,
-        payback_period,
-        desired_outcomes,
-        timeline,
-        primary_role,
-        decision_maker,
-        preferred_channels,
-        consent_to_contact,
-        wants_free_audit,
-        referral_source
+        session_id, company_name, turnover_range, city, state, industry,
+        employee_count, selected_problems, problem_descriptions, problem_losses,
+        current_solutions, payback_period, max_investment, monthly_budget,
+        desired_outcomes, three_month_goal, primary_role, decision_maker,
+        preferred_channels, implementation_constraints, timeline,
+        full_name, designation, phone, whatsapp, email,
+        consent_to_contact, wants_free_audit, referral_source
       ) VALUES (
-        ${sessionId ?? null},
-        ${companyName ?? null},
-        ${contactName},
-        ${email},
-        ${phone ?? null},
-        ${industry ?? null},
-        ${companySize ?? null},
-        ${annualRevenue ?? null},
-        ${location ?? null},
-        ${problems ?? []},
-        ${budgetRange ?? null},
-        ${expectedRoi ?? null},
-        ${timeline ?? null},
-        ${outcomes ?? []},
-        ${timeline ?? null},
-        ${rawAnswers?.primaryRole ?? null},
-        ${decisionMakers ?? null},
-        ${workingStyle ? [workingStyle] : []},
-        TRUE,
-        ${rawAnswers?.wantsFreeAudit ?? false},
-        ${rawAnswers?.referralSource ?? null}
+        ${sessionId}, ${companyName}, ${turnoverRange}, ${city}, ${state}, ${industry},
+        ${employeeCount}, ${selectedProblems}, ${JSON.stringify(problemDescriptions)},
+        ${JSON.stringify(problemLosses)}, ${JSON.stringify(currentSolutions)},
+        ${paybackPeriod}, ${maxInvestment}, ${monthlyBudget},
+        ${desiredOutcomes}, ${threeMonthGoal}, ${primaryRole}, ${decisionMaker},
+        ${preferredChannels}, ${implementationConstraints}, ${timeline},
+        ${fullName}, ${designation}, ${phone}, ${whatsapp}, ${email},
+        ${consentToContact}, ${wantsFreeAudit}, ${referralSource}
       )
     `
 
-    // Log the submission as a page event for unified analytics
     if (sessionId) {
       await sql`
         INSERT INTO page_events (session_id, event_type, event_label, metadata)
-        VALUES (${sessionId}, 'assessment_submitted', 'assessment', ${JSON.stringify({ email, companyName })})
+        VALUES (${sessionId}, 'assessment_submitted', 'assessment',
+          ${JSON.stringify({ email, companyName, problemCount: selectedProblems.length })})
       `
     }
 

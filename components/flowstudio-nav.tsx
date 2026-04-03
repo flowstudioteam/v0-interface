@@ -12,6 +12,7 @@ const navItems = [
   { id: "market", label: "Market Insights" },
   { id: "assessment", label: "Assessment" },
   { id: "chat", label: "Ask AI" },
+  { id: "contact", label: "Contact" },
 ]
 
 export function FlowStudioNav() {

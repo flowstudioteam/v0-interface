@@ -6,6 +6,7 @@ import { CaseStudiesSection } from "@/components/case-studies-section"
 import { MarketInsightsSection } from "@/components/market-insights-section"
 import { AssessmentWizard } from "@/components/assessment-wizard"
 import { AIChatSection } from "@/components/ai-chat-section"
+import { InquiryForm } from "@/components/inquiry-form"
 import VisitorTracker from "@/components/visitor-tracker"
 
 export default function Page() {
@@ -22,6 +23,7 @@ export default function Page() {
         <MarketInsightsSection />
         <AssessmentWizard />
         <AIChatSection />
+        <InquiryForm />
         <FlowStudioFooter />
       </div>
     </main>
