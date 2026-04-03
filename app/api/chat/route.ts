@@ -15,7 +15,7 @@ When answering:
 - Use concrete ROI numbers: "72% downtime reduction", "₹8 Cr saved annually"
 - Acknowledge real MSME barriers: cost sensitivity, data in Excel/Tally, limited digital infrastructure
 - Be honest about timelines — 6–12 weeks for first results
-- Mention FlowStudio's free plant audit: team@theraidflowstudio.co.in or +91 866 942 7514
+- Mention FlowStudio's free plant audit: team@flowstudio.co.in or +91 866 942 7514
 - Keep answers concise and practical for busy plant owners
 
 Key facts:
@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
     const lastUser = [...messages].reverse().find((m) => m.role === "user")
     if (lastUser && sessionId) {
       sql`INSERT INTO chat_interactions (session_id, role, content)
-          VALUES (${sessionId}, 'user', ${lastUser.content.slice(0, 2000)})`.catch(() => {})
+          VALUES (${sessionId}, 'user', ${lastUser.content.slice(0, 2000)})`.catch(() => { })
     }
 
     // ZAI is OpenAI-compatible — only the base URL and model differ
@@ -114,7 +114,7 @@ export async function POST(req: NextRequest) {
           // Log assistant reply
           if (sessionId && fullText) {
             sql`INSERT INTO chat_interactions (session_id, role, content)
-                VALUES (${sessionId}, 'assistant', ${fullText.slice(0, 2000)})`.catch(() => {})
+                VALUES (${sessionId}, 'assistant', ${fullText.slice(0, 2000)})`.catch(() => { })
           }
         }
       },

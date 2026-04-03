@@ -19,7 +19,7 @@ export const siteConfig = {
   },
 
   contact: {
-    email: "team@theraidflowstudio.co.in",
+    email: "team@flowstudio.co.in",
     phone: "+918669427514",
     phoneDisplay: "+91 866 942 7514",
     whatsappLink: "https://wa.me/918669427514",
