@@ -2,7 +2,6 @@ import { FlowStudioHero } from "@/components/flowstudio-hero"
 import { FlowStudioNav } from "@/components/flowstudio-nav"
 import FlowStudioFooter from "@/components/flowstudio-footer"
 import { ProblemCardsSection } from "@/components/problem-cards-section"
-import { CaseStudiesSection } from "@/components/case-studies-section"
 import { MarketInsightsSection } from "@/components/market-insights-section"
 import { AssessmentWizard } from "@/components/assessment-wizard"
 import { AIChatSection } from "@/components/ai-chat-section"
@@ -20,7 +19,6 @@ export default function Page() {
       <div className="relative z-10">
         <FlowStudioHero />
         <ProblemCardsSection />
-        <CaseStudiesSection />
         <RiskAssessmentSection />
         <MarketInsightsSection />
         <AssessmentWizard />
