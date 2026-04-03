@@ -26,7 +26,7 @@ export const siteConfig = {
   },
 
   /** Calendar booking link used on every CTA that opens a direct conversation. */
-  calendarLink: "https://calendar.app.google/49oSvU4DxdkEifyj7",
+  calendarLink: "https://cal.com/flow-studio-wddqy7/30min",
 
   social: {
     linkedin: "https://linkedin.com/company/flowstudio",
