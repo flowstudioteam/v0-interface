@@ -229,7 +229,7 @@ export function AIChatSection() {
           {messages.length > 0 && (
             <div className="border-t border-border/20 px-4 py-2 flex items-center justify-between">
               <span className="font-mono text-[10px] text-muted-foreground/50 uppercase tracking-widest">
-                {messages.length} message{messages.length !== 1 ? "s" : ""} — ZAI
+                {messages.length} message{messages.length !== 1 ? "s" : ""} — ZAI GLM-5
               </span>
               <button
                 onClick={handleClear}

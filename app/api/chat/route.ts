@@ -46,15 +46,16 @@ export async function POST(req: NextRequest) {
           VALUES (${sessionId}, 'user', ${lastUser.content.slice(0, 2000)})`.catch(() => { })
     }
 
-    // ZAI is OpenAI-compatible — only the base URL and model differ
-    const zaiRes = await fetch("https://api.zai.ai/v1/chat/completions", {
+    // ZAI uses the standard OpenAI-compatible chat completions endpoint
+    const zaiRes = await fetch("https://api.z.ai/api/paas/v4/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Accept-Language": "en-US,en",
         Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: "zai-1",
+        model: "glm-5",
         stream: true,
         max_tokens: 600,
         messages: [{ role: "system", content: SYSTEM_PROMPT }, ...messages],
