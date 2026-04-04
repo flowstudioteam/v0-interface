@@ -31,10 +31,7 @@ Flow Studio's AI Readiness Assessment Platform is designed to be the **definitiv
 
 ### 1.2 Strategic Positioning
 
-**"We build AI systems for India’s manufacturing MSMEs.
-We create deep operational systems designed around factory workflows.
-Instead of broad horizontal products, we focus on how manufacturers actually run.
-That means less manual effort, clearer decisions, and better business outcomes.affordable, high-ROI AI systems exclusively for Indian SMB manufacturers because they are the backbone of our economy."**
+**"We build affordable, high-ROI AI systems exclusively for Indian SMB manufacturers because they are the backbone of our economy."**
 
 ### 1.3 Market Opportunity
 
