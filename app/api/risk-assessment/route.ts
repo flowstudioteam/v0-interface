@@ -307,15 +307,20 @@ Rules:
       dataSources: computedNumbers.dataSources,
     }
 
-    // Save to database
+    // Save to database — column names match the risk_assessments table schema
     if (sessionId) {
       await sql`
         INSERT INTO risk_assessments (
-          session_id, annual_revenue_cr, employee_count, industry,
-          selected_problems, assessment_json
+          session_id, annual_turnover_cr, employee_count, industry,
+          primary_bottleneck, secondary_bottleneck, report
         ) VALUES (
-          ${sessionId}, ${annualRevenueCr}, ${employeeCount}, ${industry},
-          ${selectedProblems}, ${JSON.stringify(assessment)}
+          ${sessionId},
+          ${annualRevenueCr},
+          ${employeeCount},
+          ${industry},
+          ${selectedProblems[0] ?? null},
+          ${selectedProblems[1] ?? null},
+          ${JSON.stringify(assessment)}
         )
       `.catch((err) => console.error("[risk-assessment] DB error:", err))
     }
