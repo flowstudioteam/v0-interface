@@ -267,7 +267,7 @@ export function RiskAssessmentSection() {
             </button>
 
             <p className="font-mono text-[9px] text-muted-foreground/50 mt-4 text-center">
-              Powered by ZAI GLM-5 with rule-based constraints from WEF, BCG, KPMG, Deloitte, NASSCOM research
+              All figures computed from WEF, BCG, KPMG, Deloitte, and NASSCOM research benchmarks
             </p>
           </div>
         )}
@@ -285,7 +285,7 @@ export function RiskAssessmentSection() {
 
         {/* Results */}
         {step === "result" && result && (
-          <div ref={resultRef} className="space-y-6">
+          <div className="space-y-6">
             {/* Summary Card */}
             <div className="border-2 border-accent bg-accent/5 p-8">
               <div className="flex items-center justify-between mb-6">
