@@ -142,29 +142,28 @@ export function RiskAssessmentSection() {
   return (
     <section
       id="risk-assessment"
-      className="relative min-h-screen flex items-start pl-6 md:pl-28 pr-6 md:pr-12 py-20 md:py-28"
+      className="relative min-h-screen flex items-start px-4 sm:pl-6 md:pl-28 sm:pr-6 md:pr-12 py-16 md:py-28"
     >
       <div className="w-full max-w-5xl">
         {/* Header */}
-        <div className="mb-10">
-          <div className="flex items-center gap-3 mb-4">
+        <div className="mb-8 md:mb-10">
+          <div className="flex items-center gap-3 mb-3">
             <span className="font-mono text-[10px] text-accent uppercase tracking-widest">
-              06 / Capital Risk Analysis
+              02 / Risk Analysis
             </span>
             <div className="h-px flex-1 bg-border/40" />
           </div>
-          <h2 className="font-[family-name:var(--font-display)] text-4xl md:text-6xl text-foreground leading-none mb-4">
-            QUANTIFY YOUR<br />OPERATIONAL LOSSES
+          <h2 className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl md:text-6xl text-foreground leading-none mb-3">
+            QUANTIFY YOUR<br className="hidden sm:block" />OPERATIONAL LOSSES
           </h2>
-          <p className="font-mono text-sm text-muted-foreground max-w-xl leading-relaxed">
+          <p className="font-mono text-xs sm:text-sm text-muted-foreground max-w-lg leading-relaxed">
             AI-powered analysis using benchmarks from WEF, BCG, KPMG, Deloitte, and NASSCOM.
-            Every figure is formula-driven with cited sources — no estimates or projections.
           </p>
         </div>
 
         {/* Input Form */}
         {step === "input" && (
-          <div className="border border-border/40 bg-card p-8">
+          <div className="border border-border/40 bg-card p-4 sm:p-6 md:p-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               {/* Annual Revenue */}
               <div>

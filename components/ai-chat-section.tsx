@@ -118,30 +118,29 @@ export function AIChatSection() {
   return (
     <section
       id="chat"
-      className="relative min-h-screen flex items-start pl-6 md:pl-28 pr-6 md:pr-12 py-20 md:py-28"
+      className="relative min-h-screen flex items-start px-4 sm:pl-6 md:pl-28 sm:pr-6 md:pr-12 py-16 md:py-28"
     >
       <div className="w-full max-w-4xl">
         {/* Header */}
-        <div className="mb-10">
-          <div className="flex items-center gap-3 mb-4">
+        <div className="mb-8 md:mb-10">
+          <div className="flex items-center gap-3 mb-3">
             <span className="font-mono text-[10px] text-accent uppercase tracking-widest">
-              05 / Intelligence Layer
+              05 / Ask AI
             </span>
             <div className="h-px flex-1 bg-border/40" />
           </div>
-          <h2 className="font-[family-name:var(--font-display)] text-4xl md:text-6xl text-foreground leading-none mb-4">
-            ASK ABOUT<br />AI IN MANUFACTURING
+          <h2 className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl md:text-6xl text-foreground leading-none mb-3">
+            ASK ABOUT<br className="hidden sm:block" />AI IN MANUFACTURING
           </h2>
-          <p className="font-mono text-sm text-muted-foreground max-w-xl leading-relaxed">
-            Real answers grounded in Indian manufacturing data — from WEF, Deloitte, NASSCOM, and
-            plant-level case studies. Powered by ZAI.
+          <p className="font-mono text-xs sm:text-sm text-muted-foreground max-w-lg leading-relaxed">
+            Real answers grounded in Indian manufacturing data. Powered by ZAI.
           </p>
         </div>
 
         {/* Chat window */}
         <div className="border border-border/40 bg-card">
           {/* Message list */}
-          <div className="h-[420px] overflow-y-auto p-6 flex flex-col gap-6 scroll-smooth">
+          <div className="h-[320px] sm:h-[400px] md:h-[420px] overflow-y-auto p-4 sm:p-6 flex flex-col gap-4 sm:gap-6 scroll-smooth">
             {messages.length === 0 && (
               <div className="flex flex-col items-center justify-center h-full gap-6">
                 <p className="font-mono text-xs text-muted-foreground uppercase tracking-widest text-center">

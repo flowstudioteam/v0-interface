@@ -8,8 +8,8 @@ import { trackCalendarClick } from "@/lib/use-tracker"
 const navItems = [
   { id: "hero", label: "Home" },
   { id: "problems", label: "Bottlenecks" },
-  { id: "case-studies", label: "Case Studies" },
-  { id: "market", label: "Market Insights" },
+  { id: "risk-assessment", label: "Risk Analysis" },
+  { id: "market", label: "Research" },
   { id: "assessment", label: "Assessment" },
   { id: "chat", label: "Ask AI" },
   { id: "contact", label: "Contact" },
@@ -17,6 +17,7 @@ const navItems = [
 
 export function FlowStudioNav() {
   const [activeSection, setActiveSection] = useState("hero")
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -42,11 +43,62 @@ export function FlowStudioNav() {
     const element = document.getElementById(id)
     if (element) {
       element.scrollIntoView({ behavior: "smooth" })
+      setMobileMenuOpen(false)
     }
   }
 
   return (
-    <nav className="fixed left-0 top-0 z-50 h-screen w-16 md:w-20 hidden md:flex flex-col justify-center border-r border-border/30 bg-background/80 backdrop-blur-sm">
+    <>
+      {/* Mobile header bar */}
+      <div className="fixed top-0 left-0 right-0 z-50 md:hidden flex items-center justify-between px-4 py-3 bg-background/90 backdrop-blur-sm border-b border-border/30">
+        <div className="flex items-center gap-2">
+          <div className="w-7 h-7 bg-accent flex items-center justify-center">
+            <span className="font-mono text-[9px] text-accent-foreground font-bold">FS</span>
+          </div>
+          <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">FlowStudio</span>
+        </div>
+        <button
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="w-8 h-8 flex flex-col items-center justify-center gap-1"
+          aria-label="Toggle menu"
+        >
+          <span className={cn("w-5 h-0.5 bg-foreground transition-all duration-200", mobileMenuOpen && "rotate-45 translate-y-1.5")} />
+          <span className={cn("w-5 h-0.5 bg-foreground transition-all duration-200", mobileMenuOpen && "opacity-0")} />
+          <span className={cn("w-5 h-0.5 bg-foreground transition-all duration-200", mobileMenuOpen && "-rotate-45 -translate-y-1.5")} />
+        </button>
+      </div>
+
+      {/* Mobile menu overlay */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-40 md:hidden bg-background/95 backdrop-blur-sm pt-16">
+          <nav className="flex flex-col items-center justify-center h-full gap-6 pb-20">
+            {navItems.map(({ id, label }) => (
+              <button
+                key={id}
+                onClick={() => scrollToSection(id)}
+                className={cn(
+                  "font-mono text-sm uppercase tracking-widest transition-colors",
+                  activeSection === id ? "text-accent" : "text-muted-foreground"
+                )}
+              >
+                {label}
+              </button>
+            ))}
+            <a
+              href={siteConfig.calendarLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => { trackCalendarClick("mobile_nav"); setMobileMenuOpen(false) }}
+              className="mt-4 px-6 py-3 bg-accent text-accent-foreground font-mono text-xs uppercase tracking-widest"
+            >
+              Book a Call
+            </a>
+          </nav>
+        </div>
+      )}
+
+      {/* Desktop sidebar nav */}
+      <nav className="fixed left-0 top-0 z-50 h-screen w-16 md:w-20 hidden md:flex flex-col justify-center border-r border-border/30 bg-background/80 backdrop-blur-sm">
       {/* Logo */}
       <div className="absolute top-6 left-1/2 -translate-x-1/2">
         <div className="w-8 h-8 bg-accent flex items-center justify-center">
@@ -97,5 +149,6 @@ export function FlowStudioNav() {
         </div>
       </div>
     </nav>
+    </>
   )
 }

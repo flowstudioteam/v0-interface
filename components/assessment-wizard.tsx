@@ -254,16 +254,15 @@ export function AssessmentWizard() {
   }
 
   return (
-    <section ref={sectionRef} id="assessment" className="relative py-32 pl-6 md:pl-28 pr-6 md:pr-12">
+    <section ref={sectionRef} id="assessment" className="relative py-16 md:py-32 px-4 sm:pl-6 md:pl-28 sm:pr-6 md:pr-12">
       {/* Section header */}
-      <div ref={headerRef} className="mb-12">
+      <div ref={headerRef} className="mb-8 md:mb-12">
         <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">04 / Assessment</span>
-        <h2 className="mt-4 font-[var(--font-bebas)] text-5xl md:text-7xl tracking-tight">
+        <h2 className="mt-3 font-[var(--font-bebas)] text-3xl sm:text-5xl md:text-7xl tracking-tight leading-none">
           FREE AI READINESS CHECK
         </h2>
-        <p className="mt-4 max-w-2xl font-mono text-sm text-muted-foreground leading-relaxed">
-          5-minute assessment to understand your plant&apos;s biggest opportunities for AI-powered improvement. 
-          Get personalized ROI estimates based on your specific situation.
+        <p className="mt-3 max-w-lg font-mono text-xs sm:text-sm text-muted-foreground leading-relaxed">
+          5-minute assessment for personalized ROI estimates.
         </p>
       </div>
 
@@ -286,7 +285,7 @@ export function AssessmentWizard() {
       </div>
 
       {/* Form container */}
-      <div className="max-w-3xl border border-border/40 bg-card/30 p-8 md:p-12">
+      <div className="max-w-3xl border border-border/40 bg-card/30 p-4 sm:p-6 md:p-12">
         {currentStep === 1 && (
           <Step1CompanyBasics
             formData={formData}

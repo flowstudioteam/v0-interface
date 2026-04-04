@@ -177,26 +177,26 @@ export function ProblemCardsSection() {
   }, [])
 
   return (
-    <section ref={sectionRef} id="problems" className="relative py-32 pl-6 md:pl-28 pr-6 md:pr-12">
+    <section ref={sectionRef} id="problems" className="relative py-16 md:py-32 px-4 sm:pl-6 md:pl-28 sm:pr-6 md:pr-12">
       {/* Section header */}
-      <div ref={headerRef} className="mb-12">
+      <div ref={headerRef} className="mb-8 md:mb-12">
         <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">01 / Bottlenecks</span>
-        <h2 className="mt-4 font-[var(--font-bebas)] text-5xl md:text-7xl tracking-tight">
+        <h2 className="mt-3 font-[var(--font-bebas)] text-3xl sm:text-5xl md:text-7xl tracking-tight leading-none">
           WHICH PROBLEM IS EATING YOUR PROFIT?
         </h2>
-        <p className="mt-4 max-w-2xl font-mono text-sm text-muted-foreground leading-relaxed">
-          Select up to 3 bottlenecks that match your plant. Loss estimates and descriptions are drawn from published research by Deloitte, WEF, NASSCOM, KPMG, OxMaint, and Nature.com — each card cites its source.
+        <p className="mt-3 max-w-xl font-mono text-xs sm:text-sm text-muted-foreground leading-relaxed">
+          Select up to 3 bottlenecks. Loss estimates from Deloitte, WEF, NASSCOM, KPMG.
         </p>
       </div>
 
       {/* Category filters */}
-      <div className="flex flex-wrap gap-3 mb-8">
+      <div className="flex gap-2 sm:gap-3 mb-6 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap">
         {categories.map((category) => (
           <button
             key={category}
             onClick={() => setFilter(category)}
             className={cn(
-              "px-4 py-2 font-mono text-[10px] uppercase tracking-widest border transition-all duration-200",
+              "px-3 py-1.5 sm:px-4 sm:py-2 font-mono text-[9px] sm:text-[10px] uppercase tracking-widest border transition-all duration-200 whitespace-nowrap shrink-0",
               filter === category
                 ? "bg-accent text-accent-foreground border-accent"
                 : "border-border text-muted-foreground hover:border-foreground/40 hover:text-foreground"
@@ -225,7 +225,7 @@ export function ProblemCardsSection() {
       {/* Problem cards grid */}
       <div
         ref={gridRef}
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4"
       >
         {filteredProblems.map((problem) => (
           <ProblemCard
