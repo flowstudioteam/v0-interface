@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useState } from "react"
 import { cn } from "@/lib/utils"
 import { getStoredSessionId, trackCalendarClick } from "@/lib/use-tracker"
 import { siteConfig } from "@/lib/site-config"
@@ -68,7 +68,6 @@ export function RiskAssessmentSection() {
   const [selectedProblems, setSelectedProblems] = useState<string[]>([])
   const [result, setResult] = useState<AssessmentResult | null>(null)
   const [error, setError] = useState("")
-  const resultRef = useRef<HTMLDivElement>(null)
 
   const toggleProblem = (id: string) => {
     setSelectedProblems((prev) =>
@@ -121,11 +120,6 @@ export function RiskAssessmentSection() {
 
       setResult(data.assessment)
       setStep("result")
-
-      // Scroll to results
-      setTimeout(() => {
-        resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
-      }, 100)
     } catch (err) {
       console.error("[risk-assessment] error:", err)
       setError(err instanceof Error ? err.message : "Assessment failed. Please try again.")

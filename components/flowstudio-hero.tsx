@@ -8,35 +8,22 @@ import { BitmapChevron } from "@/components/bitmap-chevron"
 import { siteConfig } from "@/lib/site-config"
 import { trackCalendarClick } from "@/lib/use-tracker"
 import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
-
-gsap.registerPlugin(ScrollTrigger)
 
 export function FlowStudioHero() {
-  const sectionRef = useRef<HTMLElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (!sectionRef.current || !contentRef.current) return
-
-    const ctx = gsap.context(() => {
-      gsap.to(contentRef.current, {
-        y: -100,
-        opacity: 0,
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: 1,
-        },
-      })
-    }, sectionRef)
-
-    return () => ctx.revert()
+    if (!contentRef.current) return
+    // Simple entrance animation only — no scroll-driven scrub that can fight user scroll
+    gsap.fromTo(
+      contentRef.current,
+      { y: 30, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1, ease: "power3.out", delay: 0.1 }
+    )
   }, [])
 
   return (
-    <section ref={sectionRef} id="hero" className="relative min-h-[100svh] flex items-center px-4 sm:pl-6 md:pl-28 sm:pr-6 md:pr-12 pt-20 pb-12 md:py-24">
+    <section id="hero" className="relative min-h-[100svh] flex items-center px-4 sm:pl-6 md:pl-28 sm:pr-6 md:pr-12 pt-20 pb-12 md:py-24">
       <AnimatedNoise opacity={0.03} />
 
       {/* Left vertical label — hidden on mobile */}

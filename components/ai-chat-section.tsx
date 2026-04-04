@@ -23,12 +23,15 @@ export function AIChatSection() {
   const [messages, setMessages] = useState<Message[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [sessionId] = useState(() => getStoredSessionId())
-  const messagesEndRef = useRef<HTMLDivElement>(null)
+  const messageListRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const abortRef = useRef<AbortController | null>(null)
 
+  // Scroll only within the chat container — never hijack page scroll
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+    const container = messageListRef.current
+    if (!container) return
+    container.scrollTop = container.scrollHeight
   }, [messages])
 
   const handleSend = useCallback(async (text: string) => {
@@ -139,8 +142,11 @@ export function AIChatSection() {
 
         {/* Chat window */}
         <div className="border border-border/40 bg-card">
-          {/* Message list */}
-          <div className="h-[320px] sm:h-[400px] md:h-[420px] overflow-y-auto p-4 sm:p-6 flex flex-col gap-4 sm:gap-6 scroll-smooth">
+          {/* Message list — scroll is internal only, never triggers page scroll */}
+          <div
+            ref={messageListRef}
+            className="h-[320px] sm:h-[400px] md:h-[420px] overflow-y-auto p-4 sm:p-6 flex flex-col gap-4 sm:gap-6"
+          >
             {messages.length === 0 && (
               <div className="flex flex-col items-center justify-center h-full gap-6">
                 <p className="font-mono text-xs text-muted-foreground uppercase tracking-widest text-center">
@@ -196,7 +202,7 @@ export function AIChatSection() {
                 </div>
               )
             })}
-            <div ref={messagesEndRef} />
+
           </div>
 
           {/* Input bar */}
@@ -226,15 +232,12 @@ export function AIChatSection() {
           </div>
 
           {messages.length > 0 && (
-            <div className="border-t border-border/20 px-4 py-2 flex items-center justify-between">
-              <span className="font-mono text-[10px] text-muted-foreground/50 uppercase tracking-widest">
-                {messages.length} message{messages.length !== 1 ? "s" : ""} — ZAI GLM-5
-              </span>
+            <div className="border-t border-border/20 px-4 py-2 flex items-center justify-end">
               <button
                 onClick={handleClear}
                 className="font-mono text-[10px] text-muted-foreground/50 hover:text-muted-foreground uppercase tracking-widest transition-colors"
               >
-                Clear
+                Clear conversation
               </button>
             </div>
           )}
