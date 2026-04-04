@@ -15,10 +15,7 @@ export const siteConfig = {
     fullName: "FlowStudio AI Systems",
     tagline: "AI Systems for Indian Manufacturing SMBs",
     description:
-      "We build AI systems for India’s manufacturing MSMEs.
-We create deep operational systems designed around factory workflows.
-Instead of broad horizontal products, we focus on how manufacturers actually run.
-That means less manual effort, clearer decisions, and better business outcomes.and deploy AI systems for manufacturing SMBs in India, starting with the most painful operational bottlenecks: production control, predictive maintenance, quality control, and planning.",
+      "We build and deploy AI systems for manufacturing SMBs in India, starting with the most painful operational bottlenecks: production control, predictive maintenance, quality control, and planning.",
   },
 
   contact: {
