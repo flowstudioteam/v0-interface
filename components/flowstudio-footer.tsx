@@ -10,13 +10,13 @@ export default function FlowStudioFooter() {
     <footer className="border-t border-border bg-background">
       {/* CTA strip */}
       <div className="border-b border-border">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 py-16 md:py-20 flex flex-col md:flex-row md:items-end md:justify-between gap-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-12 md:py-20 flex flex-col md:flex-row md:items-end md:justify-between gap-8">
           <div className="max-w-xl">
             <p className="font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase mb-4">
               Ready to begin?
             </p>
             <h2
-              className="font-[family-name:var(--font-display)] text-5xl md:text-7xl text-foreground leading-none mb-5 text-balance"
+              className="font-[family-name:var(--font-display)] text-3xl sm:text-5xl md:text-7xl text-foreground leading-none mb-4 text-balance"
               style={{ letterSpacing: "0.02em" }}
             >
               Book a plant walkthrough
@@ -52,7 +52,7 @@ export default function FlowStudioFooter() {
       </div>
 
       {/* Main footer columns */}
-      <div className="max-w-7xl mx-auto px-6 md:px-12 py-12 grid grid-cols-2 md:grid-cols-4 gap-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-10 md:py-12 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-10">
         {/* Brand */}
         <div className="col-span-2 md:col-span-1">
           <span
@@ -90,8 +90,8 @@ export default function FlowStudioFooter() {
           <ul className="space-y-2.5">
             {[
               { label: "About", href: "#hero" },
-              { label: "Case Studies", href: "#case-studies" },
-              { label: "Market Insights", href: "#market-insights" },
+              { label: "Risk Analysis", href: "#risk-assessment" },
+              { label: "Research", href: "#market" },
               { label: "Assessment", href: "#assessment" },
             ].map(({ label, href }) => (
               <li key={label}>
@@ -147,7 +147,7 @@ export default function FlowStudioFooter() {
 
       {/* Bottom bar */}
       <div className="border-t border-border">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <p className="font-mono text-[10px] tracking-[0.15em] text-muted-foreground uppercase">
             &copy; {year} FlowStudio. All rights reserved.
           </p>

@@ -113,27 +113,26 @@ export function InquiryForm() {
   return (
     <section
       id="contact"
-      className="relative pl-6 md:pl-28 pr-6 md:pr-12 py-20 md:py-28"
+      className="relative px-4 sm:pl-6 md:pl-28 sm:pr-6 md:pr-12 py-16 md:py-28"
     >
       <div className="w-full max-w-4xl">
         {/* Header */}
-        <div className="mb-10">
-          <div className="flex items-center gap-3 mb-4">
+        <div className="mb-8 md:mb-10">
+          <div className="flex items-center gap-3 mb-3">
             <span className="font-mono text-[10px] text-accent uppercase tracking-widest">
-              06 / Get In Touch
+              06 / Contact
             </span>
             <div className="h-px flex-1 bg-border/40" />
           </div>
-          <h2 className="font-[family-name:var(--font-display)] text-4xl md:text-6xl text-foreground leading-none mb-4">
-            START THE<br />CONVERSATION
+          <h2 className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl md:text-6xl text-foreground leading-none mb-3">
+            START THE<br className="hidden sm:block" />CONVERSATION
           </h2>
-          <p className="font-mono text-sm text-muted-foreground max-w-xl leading-relaxed">
-            Tell us about your plant and the challenges you face. We&apos;ll respond within one business
-            day with a preliminary assessment — no sales pitch, no obligations.
+          <p className="font-mono text-xs sm:text-sm text-muted-foreground max-w-lg leading-relaxed">
+            Tell us about your plant challenges. We&apos;ll respond within one business day.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 md:gap-12">
           {/* Form */}
           <div className="lg:col-span-3">
             {status === "success" ? (

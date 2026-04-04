@@ -22,7 +22,10 @@ const bebasNeue = Bebas_Neue({ weight: "400", subsets: ["latin"], variable: "--f
 export const metadata: Metadata = {
   title: "FlowStudio — AI Systems for Indian Manufacturing SMBs",
   description:
-    "We build and deploy AI systems for manufacturing SMBs in India. Production control, predictive maintenance, quality control, and planning solutions.",
+    "We build AI systems for India’s manufacturing MSMEs.
+We create deep operational systems designed around factory workflows.
+Instead of broad horizontal products, we focus on how manufacturers actually run.
+That means less manual effort, clearer decisions, and better business outcomes.and deploy AI systems for manufacturing SMBs in India.Production control, predictive maintenance, quality control, and planning solutions.",
   generator: "v0.app",
   icons: {
     icon: [

@@ -179,15 +179,15 @@ export function MarketInsightsSection() {
   }, [])
 
   return (
-    <section ref={sectionRef} id="market" className="relative py-32 pl-6 md:pl-28 pr-6 md:pr-12">
-      {/* Section header */}
-      <div ref={headerRef} className="mb-12">
-        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">03 / Market Intelligence</span>
-        <h2 className="mt-4 font-[var(--font-bebas)] text-5xl md:text-7xl tracking-tight">
-          AI IN INDIAN MANUFACTURING
-        </h2>
-        <p className="mt-4 max-w-2xl font-mono text-sm text-muted-foreground leading-relaxed">
-          Every number on this page is drawn from independent research by WEF, BCG, KPMG, Deloitte, NASSCOM, EY-CII, and MeitY. Sources are cited in full — click any entry to read the original report.
+    <section ref={sectionRef} id="market" className="relative py-16 md:py-32 px-4 sm:pl-6 md:pl-28 sm:pr-6 md:pr-12">
+{/* Section header */}
+  <div ref={headerRef} className="mb-8 md:mb-12">
+  <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">03 / Research</span>
+  <h2 className="mt-3 font-[var(--font-bebas)] text-3xl sm:text-5xl md:text-7xl tracking-tight leading-none">
+  AI IN INDIAN MANUFACTURING
+  </h2>
+  <p className="mt-3 max-w-lg font-mono text-xs sm:text-sm text-muted-foreground leading-relaxed">
+  Research from WEF, BCG, KPMG, Deloitte, NASSCOM, EY-CII, and MeitY.
         </p>
       </div>
 
