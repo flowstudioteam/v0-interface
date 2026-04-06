@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server"
 import { getSql } from "@/lib/db"
+import { getKnowledgeContext, formatKnowledgePrompt } from "@/lib/knowledge-retrieval"
 
 export const maxDuration = 30
 
@@ -123,6 +124,17 @@ export async function POST(req: NextRequest) {
           VALUES (${sessionId}, 'user', ${lastUser.content.slice(0, 2000)})`.catch(() => { })
     }
 
+    // Retrieve relevant knowledge context to enrich AI response
+    let knowledgeContext = ""
+    if (lastUser) {
+      try {
+        const context = await getKnowledgeContext(lastUser.content)
+        knowledgeContext = formatKnowledgePrompt(context)
+      } catch (err) {
+        console.error("[chat] Knowledge retrieval failed:", err)
+      }
+    }
+
     // AI provider uses the standard OpenAI-compatible chat completions endpoint
     const aiRes = await fetch("https://api.z.ai/api/paas/v4/chat/completions", {
       method: "POST",
@@ -135,7 +147,10 @@ export async function POST(req: NextRequest) {
         model: "glm-5",
         stream: true,
         max_tokens: 600,
-        messages: [{ role: "system", content: SYSTEM_PROMPT }, ...messages],
+        messages: [
+          { role: "system", content: SYSTEM_PROMPT + knowledgeContext },
+          ...messages
+        ],
       }),
       signal: req.signal,
     })
