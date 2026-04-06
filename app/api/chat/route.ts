@@ -123,8 +123,8 @@ export async function POST(req: NextRequest) {
           VALUES (${sessionId}, 'user', ${lastUser.content.slice(0, 2000)})`.catch(() => { })
     }
 
-    // ZAI uses the standard OpenAI-compatible chat completions endpoint
-    const zaiRes = await fetch("https://api.z.ai/api/paas/v4/chat/completions", {
+    // AI provider uses the standard OpenAI-compatible chat completions endpoint
+    const aiRes = await fetch("https://api.z.ai/api/paas/v4/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -140,18 +140,18 @@ export async function POST(req: NextRequest) {
       signal: req.signal,
     })
 
-    if (!zaiRes.ok) {
-      const err = await zaiRes.text()
-      console.error("[chat] ZAI error:", err)
+    if (!aiRes.ok) {
+      const err = await aiRes.text()
+      console.error("[chat] AI provider error:", err)
       return new Response(
         `0:"Sorry, the AI service is temporarily unavailable. Please try again."\n`,
         { status: 200, headers: { "Content-Type": "text/plain" } }
       )
     }
 
-    const providerRes = zaiRes
+    const providerRes = aiRes
 
-    // Stream ZAI SSE → client in AI SDK data-stream format ("0:..." lines)
+    // Stream AI provider SSE → client in AI SDK data-stream format ("0:..." lines)
     let fullText = ""
     const stream = new ReadableStream({
       async start(controller) {

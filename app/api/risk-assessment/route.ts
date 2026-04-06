@@ -6,7 +6,7 @@ export const maxDuration = 60
 // ---------------------------------------------------------------------------
 // RESEARCH-BACKED BENCHMARKS — all numbers sourced from named publications.
 // The math is done in TypeScript (server-side), NOT by the LLM.
-// ZAI is only used to generate the written narrative (methodology text,
+// AI is only used to generate the written narrative (methodology text,
 // recommendation text). Every ₹ figure is computed below from these constants.
 // ---------------------------------------------------------------------------
 
@@ -200,7 +200,7 @@ export async function POST(req: NextRequest) {
     }
 
     // -----------------------------------------------------------------------
-    // STEP 2: ZAI writes ONLY the narrative — methodology text + recommendations
+    // STEP 2: AI writes ONLY the narrative — methodology text + recommendations
     // All ₹ figures in the narrative are injected from computedNumbers above
     // -----------------------------------------------------------------------
     const narrativePrompt = `You are a manufacturing AI consultant writing a brief, professional assessment narrative for an Indian SMB plant owner.
@@ -240,7 +240,7 @@ Rules:
 - Never invent ₹ figures. Only use the pre-computed figures provided above.
 - Keep language direct and practical for a plant owner.`
 
-    const zaiRes = await fetch("https://api.z.ai/api/paas/v4/chat/completions", {
+    const aiRes = await fetch("https://api.z.ai/api/paas/v4/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -274,10 +274,10 @@ Rules:
       source: calc.source,
     }))
 
-    if (zaiRes.ok) {
+    if (aiRes.ok) {
       try {
-        const zaiData = await zaiRes.json()
-        const content = zaiData.choices?.[0]?.message?.content
+        const aiData = await aiRes.json()
+        const content = aiData.choices?.[0]?.message?.content
         if (content) {
           const jsonStr = content.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim()
           const parsed = JSON.parse(jsonStr)
