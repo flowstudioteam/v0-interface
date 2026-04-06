@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server"
-import { sql } from "@/lib/db"
+import { getSql } from "@/lib/db"
 
 export const maxDuration = 30
 
@@ -119,7 +119,7 @@ export async function POST(req: NextRequest) {
     // Log user message (fire-and-forget)
     const lastUser = [...messages].reverse().find((m) => m.role === "user")
     if (lastUser && sessionId) {
-      sql`INSERT INTO chat_interactions (session_id, role, content)
+      getSql()`INSERT INTO chat_interactions (session_id, role, content)
           VALUES (${sessionId}, 'user', ${lastUser.content.slice(0, 2000)})`.catch(() => { })
     }
 
@@ -191,7 +191,7 @@ export async function POST(req: NextRequest) {
           controller.close()
           // Log assistant reply
           if (sessionId && fullText) {
-            sql`INSERT INTO chat_interactions (session_id, role, content)
+            getSql()`INSERT INTO chat_interactions (session_id, role, content)
                 VALUES (${sessionId}, 'assistant', ${fullText.slice(0, 2000)})`.catch(() => { })
           }
         }

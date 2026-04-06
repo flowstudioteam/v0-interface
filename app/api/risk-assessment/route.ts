@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { sql } from "@/lib/db"
+import { getSql } from "@/lib/db"
 
 export const maxDuration = 60
 
@@ -309,7 +309,7 @@ Rules:
 
     // Save to database — column names match the risk_assessments table schema
     if (sessionId) {
-      await sql`
+      await getSql()`
         INSERT INTO risk_assessments (
           session_id, annual_turnover_cr, employee_count, industry,
           primary_bottleneck, secondary_bottleneck, report

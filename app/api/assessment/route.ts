@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { sql } from "@/lib/db"
+import { getSql } from "@/lib/db"
 
 export async function POST(req: NextRequest) {
   try {
@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    await sql`
+    await getSql()`
       INSERT INTO assessment_submissions (
         session_id, company_name, turnover_range, city, state, industry,
         employee_count, selected_problems, problem_descriptions, problem_losses,
@@ -67,7 +67,7 @@ export async function POST(req: NextRequest) {
     `
 
     if (sessionId) {
-      await sql`
+      await getSql()`
         INSERT INTO page_events (session_id, event_type, event_label, metadata)
         VALUES (${sessionId}, 'assessment_submitted', 'assessment',
           ${JSON.stringify({ email, companyName, problemCount: selectedProblems.length })})

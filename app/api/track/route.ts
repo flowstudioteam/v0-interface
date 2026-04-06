@@ -1,8 +1,13 @@
 import { NextRequest, NextResponse } from "next/server"
-import { sql } from "@/lib/db"
+import { getSql } from "@/lib/db"
 
 export async function POST(req: NextRequest) {
+  if (!process.env.DATABASE_URL) {
+    return NextResponse.json({ ok: false, error: "Database not configured" }, { status: 503 })
+  }
+
   try {
+    const sql = getSql()
     const body = await req.json()
     const { type, sessionId, data } = body
 
