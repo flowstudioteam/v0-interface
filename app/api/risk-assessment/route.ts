@@ -111,12 +111,28 @@ type AssessmentInput = {
   industry: string
   selectedProblems: string[]
   sessionId?: string
+  // Lead capture fields
+  companyName?: string
+  contactName?: string
+  contactEmail?: string
+  contactPhone?: string
+  city?: string
+  state?: string
+  // Market research fields
+  traditionalIssues?: string[]
+  estimatedLossCr?: number
+  currentSolutions?: string
+  biggestChallenge?: string
 }
 
 export async function POST(req: NextRequest) {
   try {
     const input: AssessmentInput = await req.json()
-    const { annualRevenueCr, employeeCount, industry, selectedProblems, sessionId } = input
+    const { 
+      annualRevenueCr, employeeCount, industry, selectedProblems, sessionId,
+      companyName, contactName, contactEmail, contactPhone, city, state,
+      traditionalIssues, estimatedLossCr, currentSolutions, biggestChallenge
+    } = input
 
     if (!annualRevenueCr || !employeeCount || !industry || !selectedProblems?.length) {
       return NextResponse.json(
@@ -307,22 +323,37 @@ Rules:
       dataSources: computedNumbers.dataSources,
     }
 
-    // Save to database — column names match the risk_assessments table schema
-    if (sessionId) {
+    // Save to database for sales pipeline — includes all lead + market research data
+    try {
       await getSql()`
         INSERT INTO risk_assessments (
           session_id, annual_turnover_cr, employee_count, industry,
-          primary_bottleneck, secondary_bottleneck, report
+          primary_bottleneck, secondary_bottleneck, report,
+          company_name, contact_name, contact_email, contact_phone,
+          city, state, traditional_issues, estimated_loss_cr,
+          current_solutions, biggest_challenge
         ) VALUES (
-          ${sessionId},
+          ${sessionId ?? null},
           ${annualRevenueCr},
           ${employeeCount},
           ${industry},
           ${selectedProblems[0] ?? null},
           ${selectedProblems[1] ?? null},
-          ${JSON.stringify(assessment)}
+          ${JSON.stringify(assessment)},
+          ${companyName ?? null},
+          ${contactName ?? null},
+          ${contactEmail ?? null},
+          ${contactPhone ?? null},
+          ${city ?? null},
+          ${state ?? null},
+          ${traditionalIssues ? JSON.stringify(traditionalIssues) : null},
+          ${estimatedLossCr ?? null},
+          ${currentSolutions ?? null},
+          ${biggestChallenge ?? null}
         )
-      `.catch((err) => console.error("[risk-assessment] DB error:", err))
+      `
+    } catch (err) {
+      console.error("[risk-assessment] DB error:", err)
     }
 
     return NextResponse.json({ success: true, assessment })
