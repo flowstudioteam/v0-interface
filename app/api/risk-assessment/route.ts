@@ -127,7 +127,7 @@ export async function POST(req: NextRequest) {
 
     const apiKey = process.env.ZAI_API_KEY
     if (!apiKey) {
-      return NextResponse.json({ error: "ZAI API key not configured" }, { status: 500 })
+      return NextResponse.json({ error: "AI service is temporarily unavailable" }, { status: 503 })
     }
 
     // -----------------------------------------------------------------------

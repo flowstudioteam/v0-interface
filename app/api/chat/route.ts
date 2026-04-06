@@ -111,7 +111,7 @@ export async function POST(req: NextRequest) {
     const apiKey = process.env.ZAI_API_KEY
     if (!apiKey) {
       return new Response(
-        `0:"AI service not configured. Please add your ZAI_API_KEY in project settings."\n`,
+        `0:"AI service is temporarily unavailable. Please try again later."\n`,
         { status: 200, headers: { "Content-Type": "text/plain" } }
       )
     }

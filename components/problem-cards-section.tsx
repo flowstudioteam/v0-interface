@@ -217,7 +217,7 @@ export function ProblemCardsSection() {
             href="#risk-assessment"
             className="font-mono text-xs uppercase tracking-widest text-foreground hover:text-accent transition-colors"
           >
-            Continue to Disqus Analyzer →
+            Continue to Risk Assessment →
           </a>
         </div>
       )}
