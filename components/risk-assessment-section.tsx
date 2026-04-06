@@ -143,12 +143,12 @@ export function RiskAssessmentSection() {
         <div className="mb-8 md:mb-10">
           <div className="flex items-center gap-3 mb-3">
             <span className="font-mono text-[10px] text-accent uppercase tracking-widest">
-              02 / Risk Analysis
+              02 / Primary Risk Assessment
             </span>
             <div className="h-px flex-1 bg-border/40" />
           </div>
           <h2 className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl md:text-6xl text-foreground leading-none mb-3">
-            QUANTIFY YOUR<br className="hidden sm:block" />OPERATIONAL LOSSES
+            PRIMARY RISK<br className="hidden sm:block" />ASSESSMENT
           </h2>
           <p className="font-mono text-xs sm:text-sm text-muted-foreground max-w-lg leading-relaxed">
             AI-powered analysis using benchmarks from WEF, BCG, KPMG, Deloitte, and NASSCOM.
@@ -263,7 +263,7 @@ export function RiskAssessmentSection() {
               onClick={handleSubmit}
               className="w-full px-6 py-4 bg-accent text-accent-foreground font-mono text-sm uppercase tracking-widest hover:bg-accent/90 transition-colors"
             >
-              Generate Risk Assessment
+              Run Primary Risk Assessment
             </button>
 
             <p className="font-mono text-[9px] text-muted-foreground/50 mt-4 text-center">

@@ -90,9 +90,9 @@ export default function FlowStudioFooter() {
           <ul className="space-y-2.5">
             {[
               { label: "About", href: "#hero" },
-              { label: "Risk Analysis", href: "#risk-assessment" },
+              { label: "Primary Risk Assessment", href: "#risk-assessment" },
               { label: "Research", href: "#market" },
-              { label: "Assessment", href: "#assessment" },
+              { label: "Disqus Analyzer", href: "#risk-assessment" },
             ].map(({ label, href }) => (
               <li key={label}>
                 <a

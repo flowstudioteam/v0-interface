@@ -3,7 +3,6 @@ import { FlowStudioNav } from "@/components/flowstudio-nav"
 import FlowStudioFooter from "@/components/flowstudio-footer"
 import { ProblemCardsSection } from "@/components/problem-cards-section"
 import { MarketInsightsSection } from "@/components/market-insights-section"
-import { AssessmentWizard } from "@/components/assessment-wizard"
 import { AIChatSection } from "@/components/ai-chat-section"
 import { RiskAssessmentSection } from "@/components/risk-assessment-section"
 import { InquiryForm } from "@/components/inquiry-form"
@@ -21,7 +20,6 @@ export default function Page() {
         <ProblemCardsSection />
         <RiskAssessmentSection />
         <MarketInsightsSection />
-        <AssessmentWizard />
         <AIChatSection />
         <InquiryForm />
         <FlowStudioFooter />
