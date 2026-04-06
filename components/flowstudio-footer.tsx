@@ -62,7 +62,7 @@ export default function FlowStudioFooter() {
             flowstudio
           </span>
           <p className="font-sans text-sm text-muted-foreground leading-relaxed max-w-md">
-            We build and deploy AI systems for manufacturing SMBs in India, starting with the most painful operational bottlenecks: production control, predictive maintenance, quality control, and planning.
+            We build and deploy AI systems for manufacturing SMBs in India, focused on real operational workflows instead of surface-level software layers. Our approach is deep vertical integration so AI can work inside the business, not just around it.
           </p>
         </div>
 
