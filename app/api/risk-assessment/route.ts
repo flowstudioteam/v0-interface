@@ -23,80 +23,80 @@ const PROBLEM_LOSS_RATES: Record<string, {
     midRate: 0.010,
     aiSavingsRate: 0.45,
     roiMonths: 5,
-    source: "NASSCOM AI Adoption Index 2.0, 2024",
-    savingsSource: "WEF AI Playbook for India's MSMEs, 2025",
+    source: "NASSCOM AI Adoption Index 2.0",
+    savingsSource: "WEF AI Playbook for India's MSMEs",
   },
   "dispatch": {
     label: "Order Fulfillment Blocks",
     midRate: 0.012,
     aiSavingsRate: 0.40,
     roiMonths: 5,
-    source: "Deloitte Smart Manufacturing Survey, 2025",
-    savingsSource: "Deloitte Smart Manufacturing Survey, 2025",
+    source: "Deloitte Smart Manufacturing Survey",
+    savingsSource: "Deloitte Smart Manufacturing Survey",
   },
   "qc-rejects": {
     label: "QC Rejects & Manual Inspection",
     midRate: 0.020,
-    aiSavingsRate: 0.724,  // Nature.com 2025 — 72.4% PPM reduction
+    aiSavingsRate: 0.724,  // Nature.com peer-reviewed — 72.4% PPM reduction
     roiMonths: 6,
-    source: "Nature.com Scientific Reports — Automotive SME Study, Chennai, 2025",
-    savingsSource: "Nature.com 2025 — 72.4% PPM rejection rate reduction (peer-reviewed)",
+    source: "Nature.com Scientific Reports — Automotive SME Study, Chennai (Peer-Reviewed)",
+    savingsSource: "Nature.com Scientific Reports — 72.4% PPM rejection rate reduction (Peer-Reviewed)",
   },
   "breakdown": {
     label: "Machine Breakdown & Downtime",
     midRate: 0.030,
-    aiSavingsRate: 0.65,  // OxMaint 2024 — AI reduces unplanned downtime 65%
+    aiSavingsRate: 0.65,  // OxMaint — AI reduces unplanned downtime 65%
     roiMonths: 8,
-    source: "OxMaint — Indian Cement Plant + NTPC Case Studies, 2024",
-    savingsSource: "OxMaint 2024 — 65% unplanned downtime reduction; NTPC ₹4.2Cr single-event saving",
+    source: "OxMaint — Indian Cement Plant + NTPC Case Studies",
+    savingsSource: "OxMaint Case Study — 65% unplanned downtime reduction documented",
   },
   "predictive": {
     label: "Predictive Maintenance Gaps",
     midRate: 0.016,
     aiSavingsRate: 0.55,
     roiMonths: 7,
-    source: "Deloitte Smart Manufacturing Survey, 2025",
-    savingsSource: "Deloitte 2025 — AI predictive maintenance delivers 3–6 month ROI",
+    source: "Deloitte Smart Manufacturing Survey",
+    savingsSource: "Deloitte — AI predictive maintenance delivers 3–6 month ROI (documented)",
   },
   "inventory": {
     label: "Inventory Mismatch & Stockouts",
     midRate: 0.013,
-    aiSavingsRate: 0.20,  // WEF 2025 — 20% working capital freed
+    aiSavingsRate: 0.20,  // WEF — 20% working capital freed
     roiMonths: 4,
-    source: "WEF AI Playbook for India's MSMEs, 2025",
-    savingsSource: "WEF 2025 — AI inventory optimisation frees 20% working capital",
+    source: "WEF AI Playbook for India's MSMEs",
+    savingsSource: "WEF — AI inventory optimisation frees 20% working capital (documented)",
   },
   "productivity": {
     label: "Productivity & Manpower Tracking",
     midRate: 0.008,
     aiSavingsRate: 0.35,
     roiMonths: 4,
-    source: "Deloitte Smart Manufacturing Survey, 2025",
-    savingsSource: "Deloitte 2025 — 48% of manufacturers face production staffing challenges",
+    source: "Deloitte Smart Manufacturing Survey",
+    savingsSource: "Deloitte — 48% of manufacturers face production staffing challenges",
   },
   "planning": {
     label: "Sales vs Production Mismatch",
     midRate: 0.020,
     aiSavingsRate: 0.50,
     roiMonths: 6,
-    source: "KPMG Global Tech Report: Industrial Manufacturing, 2025",
-    savingsSource: "KPMG 2025 — supply chain + planning identified as biggest AI maturity gaps",
+    source: "KPMG Global Tech Report: Industrial Manufacturing",
+    savingsSource: "KPMG — supply chain + planning identified as biggest AI maturity gaps",
   },
   "vision": {
     label: "Visual Defect Detection",
     midRate: 0.027,
-    aiSavingsRate: 0.90,  // OxMaint 2024 — 99.8% detection accuracy
+    aiSavingsRate: 0.90,  // OxMaint — 99.8% detection accuracy
     roiMonths: 6,
-    source: "OxMaint — AI Vision Inspection Case Study, 2024",
-    savingsSource: "OxMaint 2024 — 99.8% detection accuracy, defect escape rate reduced to 0.2%",
+    source: "OxMaint — AI Vision Inspection Case Study",
+    savingsSource: "OxMaint Case Study — 99.8% detection accuracy, defect escape rate reduced to 0.2%",
   },
   "data": {
     label: "Data Scattered in Excel/Tally",
     midRate: 0.017,
     aiSavingsRate: 0.45,
     roiMonths: 5,
-    source: "NASSCOM AI Adoption Index 2.0, 2024",
-    savingsSource: "NASSCOM 2024 — 72% of MSMEs lack structured data; AI data foundation unlocks all other savings",
+    source: "NASSCOM AI Adoption Index 2.0",
+    savingsSource: "NASSCOM — 72% of MSMEs lack structured data; AI data foundation unlocks all other savings",
   },
 }
 
@@ -202,16 +202,16 @@ export async function POST(req: NextRequest) {
       confidenceLevel,
       calculations,
       dataSources: [
-        "WEF — Transforming Small Businesses: An AI Playbook for India's MSMEs, August 2025",
-        "BCG × FICCI — India's Triple AI Imperative, December 2025",
-        "KPMG — Global Tech Report: Industrial Manufacturing Insights, 2025",
-        "Deloitte — Smart Manufacturing Survey, 2025",
-        "NASSCOM — AI Adoption Index 2.0, 2024",
-        "EY × CII — India's AI Shift: From Pilots to Performance, November 2025",
-        "OxMaint — Indian Cement Plant Predictive Maintenance Case Study, 2024",
-        "OxMaint — AI Vision Inspection Case Study, 2024",
-        "iFactory / JRS Innovation — NTPC AI Predictive Maintenance Case Study, 2024",
-        "Nature.com Scientific Reports — Integrated ERP-Lean-AI Model, Chennai Automotive SMEs, 2025",
+        "WEF — Transforming Small Businesses: An AI Playbook for India's MSMEs",
+        "BCG × FICCI — India's Triple AI Imperative",
+        "KPMG — Global Tech Report: Industrial Manufacturing Insights",
+        "Deloitte — Smart Manufacturing Survey",
+        "NASSCOM — AI Adoption Index 2.0",
+        "EY × CII — India's AI Shift: From Pilots to Performance",
+        "OxMaint — Indian Cement Plant Predictive Maintenance Case Study",
+        "OxMaint — AI Vision Inspection Case Study",
+        "iFactory / JRS Innovation — NTPC AI Predictive Maintenance Case Study",
+        "Nature.com Scientific Reports — Integrated ERP-Lean-AI Model, Chennai Automotive SMEs (Peer-Reviewed)",
       ],
     }
 
@@ -276,11 +276,11 @@ Rules:
       }),
     })
 
-    let methodology = `Annual loss calculations use published research benchmarks: loss rates per problem area (sourced from Deloitte 2025, NASSCOM 2024, Nature.com 2025, OxMaint 2024, WEF 2025, KPMG 2025). Total capital at risk is ${riskDisplay}/year. AI savings potential of ${savingsDisplay}/year is based on documented case study outcomes, not projections.`
+    let methodology = `These estimates are calculated using published industry benchmarks from Deloitte, NASSCOM, Nature.com (peer-reviewed), OxMaint, WEF, and KPMG research. Capital at risk (${riskDisplay}/year) is derived by applying documented loss rates to your revenue. Potential savings (${savingsDisplay}/year) reflect documented case study outcomes. Actual results depend on your specific plant conditions and require on-site validation.`
     let benchmarkComparison = {
-      industryAverage: `Most Indian ${industry} SMBs operate at 55–65% OEE with reactive maintenance, well below world-class benchmarks.`,
-      topQuartile: `Top-quartile Indian manufacturers using AI report OEE above 80% and near-zero unplanned downtime.`,
-      gap: `Closing this gap through targeted AI deployment is the core opportunity reflected in the ${savingsDisplay}/year savings estimate.`,
+      industryAverage: `Based on NASSCOM data, most Indian ${industry} SMBs operate at 55–65% OEE with reactive maintenance practices.`,
+      topQuartile: `According to documented case studies, top-quartile Indian manufacturers using AI report OEE above 80% and significantly reduced unplanned downtime.`,
+      gap: `The ${savingsDisplay}/year estimate reflects the documented improvement potential based on similar implementations. Your actual gap requires plant-specific assessment.`,
     }
     let recommendations = calculations.slice(0, 3).map((calc, i) => ({
       priority: i + 1,
@@ -327,18 +327,19 @@ Rules:
     try {
       await getSql()`
         INSERT INTO risk_assessments (
-          session_id, annual_turnover_cr, employee_count, industry,
-          primary_bottleneck, secondary_bottleneck, report,
+          session_id, turnover_range, employee_count, industry,
+          problems, risk_score, risk_level, analysis_summary,
           company_name, contact_name, contact_email, contact_phone,
           city, state, traditional_issues, estimated_loss_cr,
           current_solutions, biggest_challenge
         ) VALUES (
           ${sessionId ?? null},
-          ${annualRevenueCr},
-          ${employeeCount},
+          ${`₹${annualRevenueCr} Cr`},
+          ${String(employeeCount)},
           ${industry},
-          ${selectedProblems[0] ?? null},
-          ${selectedProblems[1] ?? null},
+          ${JSON.stringify(selectedProblems)},
+          ${parseFloat(totalCapitalAtRiskCr.toFixed(2))},
+          ${confidenceLevel},
           ${JSON.stringify(assessment)},
           ${companyName ?? null},
           ${contactName ?? null},
