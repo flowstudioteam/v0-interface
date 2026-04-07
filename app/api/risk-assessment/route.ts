@@ -337,7 +337,7 @@ Rules:
           ${`₹${annualRevenueCr} Cr`},
           ${String(employeeCount)},
           ${industry},
-          ${selectedProblems},
+          ${JSON.stringify(selectedProblems)},
           ${parseFloat(totalCapitalAtRiskCr.toFixed(2))},
           ${confidenceLevel},
           ${JSON.stringify(assessment)},
