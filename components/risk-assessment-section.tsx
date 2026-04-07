@@ -29,8 +29,6 @@ const PROBLEMS = [
   { id: "data", label: "Data Scattered in Excel/Tally" },
   { id: "dispatch", label: "Order Fulfillment & Dispatch Chaos" },
   { id: "productivity", label: "Workforce Productivity Tracking" },
-  { id: "energy", label: "Energy Consumption & Waste" },
-  { id: "compliance", label: "Compliance & Audit Trail Gaps" },
 ]
 
 const TRADITIONAL_SYSTEM_ISSUES = [

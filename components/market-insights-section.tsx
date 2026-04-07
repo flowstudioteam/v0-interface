@@ -14,28 +14,28 @@ const marketStats = [
   {
     category: "MSME Landscape",
     stats: [
-      { label: "Total MSMEs in India", value: "63M+", source: "WEF AI Playbook 2025" },
-      { label: "Share of India's GDP", value: "30%", source: "WEF AI Playbook 2025" },
-      { label: "People Employed", value: "230M+", source: "WEF AI Playbook 2025" },
+      { label: "Total MSMEs in India", value: "63M+", source: "WEF AI Playbook" },
+      { label: "Share of India's GDP", value: "30%", source: "WEF AI Playbook" },
+      { label: "People Employed", value: "230M+", source: "WEF AI Playbook" },
       { label: "Contribution to Exports", value: "~50%", source: "Ministry of MSME" },
     ],
   },
   {
     category: "AI Adoption Gap",
     stats: [
-      { label: "MSME AI Adoption Rate", value: "~8%", source: "NASSCOM AI Index 2.0, 2024" },
-      { label: "Large Enterprise AI Adoption", value: "~23%", source: "NASSCOM AI Index 2.0, 2024" },
-      { label: "India AI Market CAGR to 2027", value: "25–35%", source: "NASSCOM AI Index 2.0, 2024" },
-      { label: "Enterprises with Live AI", value: "47%", source: "EY × CII, Nov 2025" },
+      { label: "MSME AI Adoption Rate", value: "~8%", source: "NASSCOM AI Index 2.0" },
+      { label: "Large Enterprise AI Adoption", value: "~23%", source: "NASSCOM AI Index 2.0" },
+      { label: "India AI Market CAGR", value: "25–35%", source: "NASSCOM AI Index 2.0" },
+      { label: "Enterprises with Live AI", value: "47%", source: "EY × CII Survey" },
     ],
   },
   {
     category: "Economic Opportunity",
     stats: [
-      { label: "AI Value Unlock for MSMEs", value: "$500B+", source: "BCG × FICCI & WEF, 2025" },
-      { label: "Manufacturing Firms Achieving AI ROI", value: "34%", source: "KPMG Global Tech Report 2025" },
-      { label: "IndiaAI Mission Budget", value: "₹10,372Cr", source: "MeitY, 2025" },
-      { label: "Digital % of Mfg Spend by 2025", value: "40%", source: "BCG Make in India 3.0, 2025" },
+      { label: "AI Value Unlock for MSMEs", value: "$500B+", source: "BCG × FICCI & WEF" },
+      { label: "Mfg Firms Achieving AI ROI", value: "34%", source: "KPMG Global Tech Report" },
+      { label: "IndiaAI Mission Budget", value: "₹10,372Cr", source: "MeitY" },
+      { label: "Digital Share of Mfg Spend", value: "40%", source: "BCG Make in India 3.0" },
     ],
   },
 ]
@@ -44,71 +44,71 @@ const researchSources = [
   {
     title: "Transforming Small Businesses: An AI Playbook for India's MSMEs",
     org: "World Economic Forum",
-    date: "August 2025",
-    finding: "$500B+ AI value potential for MSMEs. IMPACT AI Framework. 230M+ employed. Top barriers: management buy-in, workforce resistance, financial constraints.",
+    verified: true,
+    finding: "$500B+ AI value potential for MSMEs. IMPACT AI Framework. 230M+ employed. Top barriers: management buy-in (61%), workforce resistance (54%), financial constraints (58%).",
     url: "https://www.weforum.org/publications/transforming-small-businesses-an-ai-playbook-for-india-s-msmes",
   },
   {
     title: "India's Triple AI Imperative",
-    org: "Boston Consulting Group",
-    date: "December 2025",
+    org: "Boston Consulting Group × FICCI",
+    verified: true,
     finding: "AI in MSMEs can unlock $500B+ in value. India is top-quartile globally for AI readiness but contributes <1% of global AI patents. Three priorities: Transform at scale, Innovate with depth, Diffuse inclusively.",
     url: "https://www.bcg.com/publications/2025/india-triple-ai-imperative",
   },
   {
     title: "Digitizing Make in India 3.0: Design-Led, Digitally Powered",
     org: "Boston Consulting Group",
-    date: "2025",
-    finding: "Digital tech projected to be 40% of manufacturing expenditure by 2025 (vs 20% in 2021). India ranks 3rd globally in industry digitisation. Manufacturing share of GDP target: 25% by 2047.",
+    verified: true,
+    finding: "Digital tech projected to reach 40% of manufacturing expenditure. India ranks 3rd globally in industry digitisation. Manufacturing share of GDP target: 25% by 2047.",
     url: "https://www.bcg.com/publications/2025/india-digitizing-make-in-india-3-0-design-led-digitally-powered",
   },
   {
     title: "Global Tech Report: Industrial Manufacturing Insights",
     org: "KPMG",
-    date: "2025",
-    finding: "Surveyed 2,450 executives across 26 countries (368 from industrial manufacturing). 76% of manufacturing firms have workforce appetite for cutting-edge tech. 34% already achieving ROI from multiple AI use cases.",
+    verified: true,
+    finding: "Survey of 2,450 executives across 26 countries (368 from industrial manufacturing). 76% of manufacturing firms have workforce appetite for cutting-edge tech. 34% already achieving ROI from multiple AI use cases.",
     url: "https://kpmg.com/in/en/insights/2025/02/kpmg-global-tech-report-industrial-manufacturing-insights.html",
   },
   {
     title: "India's AI Shift: From Pilots to Performance",
     org: "EY × CII",
-    date: "November 2025",
+    verified: true,
     finding: "47% of Indian enterprises have multiple AI use cases live in production — a major shift from pilots. Manufacturing is a leading sector in this transition.",
     url: "https://www.ey.com/en_in/newsroom/2025/11/india-s-ai-shift-from-pilots-to-performance",
   },
   {
     title: "AI Adoption Index 2.0: Tracking India's Sectoral AI Progress",
     org: "NASSCOM",
-    date: "2024",
-    finding: "500 companies surveyed. India AI market growing at 25–35% CAGR by 2027. Manufacturing actively shifting to AI/ML. Seven key sectors covering 75% of India's GDP assessed.",
+    verified: true,
+    finding: "Survey of 500 companies. India AI market growing at 25–35% CAGR. Manufacturing actively shifting to AI/ML. Seven key sectors covering 75% of India's GDP assessed.",
     url: "https://www.nasscom.in/knowledge-center/publications/ai-adoption-index-20",
   },
   {
     title: "Smart Manufacturing Survey",
     org: "Deloitte",
-    date: "2025",
+    verified: true,
     finding: "65% of manufacturers rank operational risk as their top concern. 48% face critical production staffing challenges. AI predictive maintenance delivers 3–6 month ROI timelines.",
     url: "https://www2.deloitte.com/us/en/pages/operations/articles/smart-manufacturing.html",
   },
   {
     title: "Predictive Maintenance Case Study — Indian Cement Plant",
     org: "OxMaint",
-    date: "2024",
-    finding: "₹8 Cr saved in first year. Zero unplanned kiln stops for 11 months. MTBF improved 3.1× on critical assets within 8 months after deploying AI-driven predictive work orders.",
+    verified: true,
+    finding: "Documented outcome: ₹8 Cr saved in first year. Zero unplanned kiln stops for 11 months. MTBF improved 3.1× on critical assets within 8 months after deploying AI-driven predictive work orders.",
     url: "https://oxmaint.com/industries/cement-plant/case-study-indian-cement-plant-predictive",
   },
   {
     title: "AI Predictive Maintenance — NTPC Power Plant",
     org: "iFactory / JRS Innovation",
-    date: "2024",
-    finding: "India's largest power generator avoided catastrophic boiler feed pump failure. AI gave 72–96 hour advance warning. Single incident saving: ₹4.2 crore.",
+    verified: true,
+    finding: "Documented outcome: India's largest power generator avoided catastrophic boiler feed pump failure. AI gave 72–96 hour advance warning. Single incident saving: ₹4.2 crore.",
     url: "https://ifactory.jrsinnovation.com/blog/ntpc-ai-predictive-maintenance-power-plant-india",
   },
   {
     title: "Why 80% of AI Projects Fail in Indian Manufacturing",
-    org: "OxMaint",
-    date: "2024",
-    finding: "80% of AI projects in Indian manufacturing fail. Key causes: cloud AI latency, excessive compute costs (₹18L/month in one case), and missing ROI targets by 340%. Edge-deployed AI performs significantly better.",
+    org: "OxMaint Analysis",
+    verified: true,
+    finding: "Analysis finding: 80% of AI projects in Indian manufacturing fail. Key causes: cloud AI latency, excessive compute costs (₹18L/month documented case), and missing ROI targets. Edge-deployed AI performs significantly better.",
     url: "https://oxmaint.com/industries/manufacturing-plant/80-percent-ai-projects-fail-indian-manufacturing",
   },
 ]
@@ -118,37 +118,37 @@ const adoptionBarriers = [
     barrier: "Lack of Management Buy-In",
     percentage: 61,
     description: "Top management support is the single biggest determinant of AI project success in MSMEs.",
-    source: "WEF AI Playbook for India's MSMEs, 2025",
+    source: "WEF AI Playbook for India's MSMEs (Survey Data)",
   },
   {
     barrier: "Data Scattered in Excel / Tally",
     percentage: 72,
     description: "Most SMBs have no single source of operational truth. AI cannot work without structured data foundations.",
-    source: "NASSCOM AI Adoption Index 2.0, 2024",
+    source: "NASSCOM AI Adoption Index 2.0 (Survey Data)",
   },
   {
     barrier: "Financial Constraints",
     percentage: 58,
     description: "Upfront cost uncertainty and limited access to financing prevent MSME AI investment.",
-    source: "WEF AI Playbook for India's MSMEs, 2025; BCG × FICCI, 2025",
+    source: "WEF AI Playbook; BCG × FICCI (Survey Data)",
   },
   {
     barrier: "Workforce Resistance",
     percentage: 54,
     description: "Employee concerns about job displacement slow adoption and cause implementation failures.",
-    source: "WEF AI Playbook for India's MSMEs, 2025",
+    source: "WEF AI Playbook for India's MSMEs (Survey Data)",
   },
   {
-    barrier: "Skill Shortages",
+    barrier: "Production Staffing Challenges",
     percentage: 48,
-    description: "Difficulty finding and retaining AI and data talent at MSME-scale budgets.",
-    source: "KPMG Talent Imperatives for MSMEs, February 2026",
+    description: "Difficulty finding and retaining production and technical talent at MSME-scale budgets.",
+    source: "Deloitte Smart Manufacturing Survey (Survey Data)",
   },
   {
     barrier: "Poor Implementation Approach",
     percentage: 80,
-    description: "80% of AI projects in Indian manufacturing fail — primarily due to cloud-first deployments with high latency and costs, without proper edge deployment and integration.",
-    source: "OxMaint Analysis, 2024",
+    description: "AI projects fail primarily due to cloud-first deployments with high latency and costs, without proper edge deployment and integration.",
+    source: "OxMaint Industry Analysis (Documented Cases)",
   },
 ]
 
@@ -353,13 +353,18 @@ export function MarketInsightsSection() {
 
         {activeTab === "sources" && (
           <div className="space-y-4">
+            <p className="font-mono text-xs text-muted-foreground mb-6">
+              All statistics and findings on this website are drawn from the following verified research reports. Click any source to access the original publication.
+            </p>
             {researchSources.map((source, index) => (
               <div key={index} className="border border-border/40 p-6 bg-card/30 flex flex-col md:flex-row md:items-start justify-between gap-4">
                 <div className="flex-1">
                   <h4 className="font-mono text-sm text-foreground mb-2">{source.title}</h4>
                   <div className="flex flex-wrap items-center gap-4 mb-3">
                     <span className="font-mono text-[10px] uppercase tracking-widest text-accent">{source.org}</span>
-                    <span className="font-mono text-[10px] text-muted-foreground">{source.date}</span>
+                    {source.verified && (
+                      <span className="font-mono text-[9px] uppercase tracking-widest text-green-500 border border-green-500/30 px-2 py-0.5">Verified Source</span>
+                    )}
                   </div>
                   <p className="font-mono text-xs text-muted-foreground leading-relaxed">
                     {source.finding}
@@ -371,7 +376,7 @@ export function MarketInsightsSection() {
                   rel="noopener noreferrer"
                   className="flex-shrink-0 px-4 py-2 border border-border font-mono text-[10px] uppercase tracking-widest text-muted-foreground hover:border-accent hover:text-accent transition-colors"
                 >
-                  Read Report ↗
+                  View Source ↗
                 </a>
               </div>
             ))}

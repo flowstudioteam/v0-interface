@@ -185,7 +185,7 @@ export function ProblemCardsSection() {
           WHICH PROBLEM IS EATING YOUR PROFIT?
         </h2>
         <p className="mt-3 max-w-xl font-mono text-xs sm:text-sm text-muted-foreground leading-relaxed">
-          Select up to 3 bottlenecks. Loss estimates from Deloitte, WEF, NASSCOM, KPMG.
+          Select up to 3 bottlenecks. Loss ranges reflect industry-typical figures from Deloitte, WEF, NASSCOM, and KPMG research — your actual losses depend on plant-specific factors.
         </p>
       </div>
 
@@ -308,7 +308,7 @@ function ProblemCard({
         <div className="flex items-end justify-between">
           <div>
             <span className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground/60 block">
-              Est. Monthly Loss
+              Industry-Typical Monthly Loss
             </span>
             <span className="font-[var(--font-bebas)] text-2xl text-destructive">
               {problem.lossEstimate}
