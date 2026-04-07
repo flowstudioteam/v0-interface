@@ -676,7 +676,7 @@ export function RiskAssessmentSection() {
                         <p className="font-mono text-sm text-foreground mb-1">{rec.action}</p>
                         <div className="flex flex-wrap gap-4">
                           <span className="font-mono text-[10px] text-accent">
-                            Impact: {rec.expectedImpact}/year
+                            Estimated Impact: {rec.expectedImpact}
                           </span>
                           <span className="font-mono text-[10px] text-muted-foreground">
                             Timeline: {rec.timelineWeeks} weeks
@@ -703,16 +703,23 @@ export function RiskAssessmentSection() {
                   </li>
                 ))}
               </ul>
+              <div className="mt-4 pt-4 border-t border-border/20">
+                <p className="font-mono text-[9px] text-muted-foreground/70 leading-relaxed">
+                  <strong>Methodology Note:</strong> All numerical estimates are calculated using your inputs (revenue, employee count, selected problems) multiplied by documented industry benchmark rates from the sources above. 
+                  These are estimates based on published research and case studies — actual results will vary based on your specific plant conditions, data availability, and implementation approach. 
+                  A free plant audit is recommended to validate these estimates with your actual operational data.
+                </p>
+              </div>
             </div>
 
             {/* CTA */}
             <div className="border border-accent/50 bg-accent/5 p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
                 <p className="font-mono text-sm text-foreground mb-1">
-                  Ready to capture {result.summary.potentialAnnualSavings}/year?
+                  Want to validate these estimates for your plant?
                 </p>
                 <p className="font-mono text-[10px] text-muted-foreground">
-                  Book a free plant audit — we validate these numbers on-site.
+                  Book a free plant audit — we verify these calculations with your actual data.
                 </p>
               </div>
               <div className="flex gap-3">
