@@ -327,18 +327,19 @@ Rules:
     try {
       await getSql()`
         INSERT INTO risk_assessments (
-          session_id, annual_turnover_cr, employee_count, industry,
-          primary_bottleneck, secondary_bottleneck, report,
+          session_id, turnover_range, employee_count, industry,
+          problems, risk_score, risk_level, analysis_summary,
           company_name, contact_name, contact_email, contact_phone,
           city, state, traditional_issues, estimated_loss_cr,
           current_solutions, biggest_challenge
         ) VALUES (
           ${sessionId ?? null},
-          ${annualRevenueCr},
-          ${employeeCount},
+          ${`₹${annualRevenueCr} Cr`},
+          ${String(employeeCount)},
           ${industry},
-          ${selectedProblems[0] ?? null},
-          ${selectedProblems[1] ?? null},
+          ${selectedProblems},
+          ${parseFloat(totalCapitalAtRiskCr.toFixed(2))},
+          ${confidenceLevel},
           ${JSON.stringify(assessment)},
           ${companyName ?? null},
           ${contactName ?? null},
