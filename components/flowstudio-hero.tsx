@@ -60,7 +60,7 @@ export function FlowStudioHero() {
 
         <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
           <a
-            href="#assessment"
+            href="#risk-assessment"
             className="group inline-flex items-center gap-3 bg-accent text-accent-foreground px-5 py-3 font-mono text-xs uppercase tracking-widest hover:bg-accent/90 transition-all duration-200"
           >
             <ScrambleTextOnHover text="Start Assessment" as="span" duration={0.6} />

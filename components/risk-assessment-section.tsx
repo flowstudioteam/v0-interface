@@ -27,6 +27,21 @@ const PROBLEMS = [
   { id: "planning", label: "Sales vs Production Mismatch" },
   { id: "procurement", label: "Procurement & Supplier Delays" },
   { id: "data", label: "Data Scattered in Excel/Tally" },
+  { id: "dispatch", label: "Order Fulfillment & Dispatch Chaos" },
+  { id: "productivity", label: "Workforce Productivity Tracking" },
+  { id: "energy", label: "Energy Consumption & Waste" },
+  { id: "compliance", label: "Compliance & Audit Trail Gaps" },
+]
+
+const TRADITIONAL_SYSTEM_ISSUES = [
+  { id: "cost", label: "Too expensive for our scale" },
+  { id: "complexity", label: "Too complex to implement" },
+  { id: "integration", label: "Does not integrate with existing systems" },
+  { id: "support", label: "Poor vendor support in India" },
+  { id: "customization", label: "Cannot customize for our needs" },
+  { id: "training", label: "Requires too much training" },
+  { id: "roi", label: "ROI unclear or too long" },
+  { id: "data-requirements", label: "Needs data we do not have" },
 ]
 
 type AssessmentResult = {
@@ -61,13 +76,27 @@ type AssessmentResult = {
 }
 
 export function RiskAssessmentSection() {
-  const [step, setStep] = useState<"input" | "loading" | "result">("input")
+  const [step, setStep] = useState<"input" | "details" | "loading" | "result">("input")
   const [annualRevenue, setAnnualRevenue] = useState("")
   const [employeeCount, setEmployeeCount] = useState("")
   const [industry, setIndustry] = useState("")
   const [selectedProblems, setSelectedProblems] = useState<string[]>([])
   const [result, setResult] = useState<AssessmentResult | null>(null)
   const [error, setError] = useState("")
+  
+  // Lead capture fields
+  const [companyName, setCompanyName] = useState("")
+  const [contactName, setContactName] = useState("")
+  const [contactEmail, setContactEmail] = useState("")
+  const [contactPhone, setContactPhone] = useState("")
+  const [city, setCity] = useState("")
+  const [state, setState] = useState("")
+  
+  // Traditional system feedback
+  const [traditionalIssues, setTraditionalIssues] = useState<string[]>([])
+  const [estimatedLossCr, setEstimatedLossCr] = useState("")
+  const [currentSolutions, setCurrentSolutions] = useState("")
+  const [biggestChallenge, setBiggestChallenge] = useState("")
 
   const toggleProblem = (id: string) => {
     setSelectedProblems((prev) =>
@@ -75,7 +104,13 @@ export function RiskAssessmentSection() {
     )
   }
 
-  const handleSubmit = async () => {
+  const toggleTraditionalIssue = (id: string) => {
+    setTraditionalIssues((prev) =>
+      prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]
+    )
+  }
+
+  const handleContinueToDetails = () => {
     const revenueCr = parseFloat(annualRevenue)
     const employees = parseInt(employeeCount, 10)
 
@@ -95,9 +130,22 @@ export function RiskAssessmentSection() {
       setError("Please select at least one problem area")
       return
     }
+    setError("")
+    setStep("details")
+  }
+
+  const handleSubmit = async () => {
+    // Validate contact info for lead capture
+    if (!contactEmail) {
+      setError("Please enter your email to receive the assessment report")
+      return
+    }
 
     setError("")
     setStep("loading")
+
+    const revenueCr = parseFloat(annualRevenue)
+    const employees = parseInt(employeeCount, 10)
 
     try {
       const res = await fetch("/api/risk-assessment", {
@@ -109,6 +157,18 @@ export function RiskAssessmentSection() {
           industry,
           selectedProblems,
           sessionId: getStoredSessionId(),
+          // Lead capture data
+          companyName,
+          contactName,
+          contactEmail,
+          contactPhone,
+          city,
+          state,
+          // Market research data
+          traditionalIssues,
+          estimatedLossCr: estimatedLossCr ? parseFloat(estimatedLossCr) : null,
+          currentSolutions,
+          biggestChallenge,
         }),
       })
 
@@ -143,12 +203,12 @@ export function RiskAssessmentSection() {
         <div className="mb-8 md:mb-10">
           <div className="flex items-center gap-3 mb-3">
             <span className="font-mono text-[10px] text-accent uppercase tracking-widest">
-              02 / Risk Analysis
+              02 / Primary Risk Assessment
             </span>
             <div className="h-px flex-1 bg-border/40" />
           </div>
           <h2 className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl md:text-6xl text-foreground leading-none mb-3">
-            QUANTIFY YOUR<br className="hidden sm:block" />OPERATIONAL LOSSES
+            PRIMARY RISK<br className="hidden sm:block" />ASSESSMENT
           </h2>
           <p className="font-mono text-xs sm:text-sm text-muted-foreground max-w-lg leading-relaxed">
             AI-powered analysis using benchmarks from WEF, BCG, KPMG, Deloitte, and NASSCOM.
@@ -260,14 +320,211 @@ export function RiskAssessmentSection() {
             )}
 
             <button
-              onClick={handleSubmit}
+              onClick={handleContinueToDetails}
               className="w-full px-6 py-4 bg-accent text-accent-foreground font-mono text-sm uppercase tracking-widest hover:bg-accent/90 transition-colors"
             >
-              Generate Risk Assessment
+              Continue to Get Your Report
             </button>
 
             <p className="font-mono text-[9px] text-muted-foreground/50 mt-4 text-center">
               All figures computed from WEF, BCG, KPMG, Deloitte, and NASSCOM research benchmarks
+            </p>
+          </div>
+        )}
+
+        {/* Step 2: Lead Capture + Market Research */}
+        {step === "details" && (
+          <div className="border border-border/40 bg-card p-4 sm:p-6 md:p-8">
+            <div className="mb-6">
+              <h3 className="font-[family-name:var(--font-display)] text-xl text-foreground mb-2">
+                GET YOUR PERSONALIZED REPORT
+              </h3>
+              <p className="font-mono text-xs text-muted-foreground">
+                Enter your details to receive your detailed risk assessment with actionable recommendations.
+              </p>
+            </div>
+
+            {/* Contact Information */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              <div>
+                <label className="block font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-2">
+                  Company Name
+                </label>
+                <input
+                  type="text"
+                  value={companyName}
+                  onChange={(e) => setCompanyName(e.target.value)}
+                  placeholder="Your company name"
+                  className="w-full bg-input border border-border/60 focus:border-accent focus:outline-none px-4 py-3 font-mono text-sm text-foreground placeholder:text-muted-foreground/50"
+                />
+              </div>
+              <div>
+                <label className="block font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-2">
+                  Your Name
+                </label>
+                <input
+                  type="text"
+                  value={contactName}
+                  onChange={(e) => setContactName(e.target.value)}
+                  placeholder="Full name"
+                  className="w-full bg-input border border-border/60 focus:border-accent focus:outline-none px-4 py-3 font-mono text-sm text-foreground placeholder:text-muted-foreground/50"
+                />
+              </div>
+              <div>
+                <label className="block font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-2">
+                  Email <span className="text-accent">*</span>
+                </label>
+                <input
+                  type="email"
+                  value={contactEmail}
+                  onChange={(e) => setContactEmail(e.target.value)}
+                  placeholder="email@company.com"
+                  required
+                  className="w-full bg-input border border-border/60 focus:border-accent focus:outline-none px-4 py-3 font-mono text-sm text-foreground placeholder:text-muted-foreground/50"
+                />
+              </div>
+              <div>
+                <label className="block font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-2">
+                  Phone / WhatsApp
+                </label>
+                <input
+                  type="tel"
+                  value={contactPhone}
+                  onChange={(e) => setContactPhone(e.target.value)}
+                  placeholder="+91 98765 43210"
+                  className="w-full bg-input border border-border/60 focus:border-accent focus:outline-none px-4 py-3 font-mono text-sm text-foreground placeholder:text-muted-foreground/50"
+                />
+              </div>
+              <div>
+                <label className="block font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-2">
+                  City
+                </label>
+                <input
+                  type="text"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  placeholder="e.g. Pune"
+                  className="w-full bg-input border border-border/60 focus:border-accent focus:outline-none px-4 py-3 font-mono text-sm text-foreground placeholder:text-muted-foreground/50"
+                />
+              </div>
+              <div>
+                <label className="block font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-2">
+                  State
+                </label>
+                <input
+                  type="text"
+                  value={state}
+                  onChange={(e) => setState(e.target.value)}
+                  placeholder="e.g. Maharashtra"
+                  className="w-full bg-input border border-border/60 focus:border-accent focus:outline-none px-4 py-3 font-mono text-sm text-foreground placeholder:text-muted-foreground/50"
+                />
+              </div>
+            </div>
+
+            {/* Market Research Questions */}
+            <div className="border-t border-border/30 pt-6 mb-6">
+              <h4 className="font-mono text-xs uppercase tracking-widest text-accent mb-4">
+                Help Us Understand Your Challenges
+              </h4>
+              
+              <div className="mb-6">
+                <label className="block font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-3">
+                  What issues have you faced with traditional software/ERP systems?
+                </label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {TRADITIONAL_SYSTEM_ISSUES.map((issue) => (
+                    <button
+                      key={issue.id}
+                      onClick={() => toggleTraditionalIssue(issue.id)}
+                      className={cn(
+                        "text-left px-3 py-2 border font-mono text-[11px] transition-all duration-150",
+                        traditionalIssues.includes(issue.id)
+                          ? "border-accent bg-accent/10 text-accent"
+                          : "border-border/40 text-muted-foreground hover:border-accent/50"
+                      )}
+                    >
+                      <span className="flex items-center gap-2">
+                        <span
+                          className={cn(
+                            "w-3 h-3 border flex items-center justify-center text-[7px]",
+                            traditionalIssues.includes(issue.id)
+                              ? "border-accent bg-accent text-accent-foreground"
+                              : "border-muted-foreground/40"
+                          )}
+                        >
+                          {traditionalIssues.includes(issue.id) && "✓"}
+                        </span>
+                        {issue.label}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div>
+                  <label className="block font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-2">
+                    Estimated annual loss from these problems (₹ Cr)
+                  </label>
+                  <input
+                    type="number"
+                    value={estimatedLossCr}
+                    onChange={(e) => setEstimatedLossCr(e.target.value)}
+                    placeholder="e.g. 2"
+                    className="w-full bg-input border border-border/60 focus:border-accent focus:outline-none px-4 py-3 font-mono text-sm text-foreground placeholder:text-muted-foreground/50"
+                  />
+                </div>
+                <div>
+                  <label className="block font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-2">
+                    What solutions have you tried?
+                  </label>
+                  <input
+                    type="text"
+                    value={currentSolutions}
+                    onChange={(e) => setCurrentSolutions(e.target.value)}
+                    placeholder="e.g. Tally, manual Excel, SAP trial"
+                    className="w-full bg-input border border-border/60 focus:border-accent focus:outline-none px-4 py-3 font-mono text-sm text-foreground placeholder:text-muted-foreground/50"
+                  />
+                </div>
+              </div>
+
+              <div className="mb-6">
+                <label className="block font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-2">
+                  What is your biggest operational challenge right now?
+                </label>
+                <textarea
+                  value={biggestChallenge}
+                  onChange={(e) => setBiggestChallenge(e.target.value)}
+                  placeholder="Describe in a few words..."
+                  rows={3}
+                  className="w-full bg-input border border-border/60 focus:border-accent focus:outline-none px-4 py-3 font-mono text-sm text-foreground placeholder:text-muted-foreground/50 resize-none"
+                />
+              </div>
+            </div>
+
+            {error && (
+              <div className="mb-6 px-4 py-3 border border-red-500/50 bg-red-500/10 font-mono text-xs text-red-400">
+                {error}
+              </div>
+            )}
+
+            <div className="flex gap-4">
+              <button
+                onClick={() => setStep("input")}
+                className="px-6 py-4 border border-border font-mono text-sm uppercase tracking-widest text-muted-foreground hover:border-accent hover:text-accent transition-colors"
+              >
+                Back
+              </button>
+              <button
+                onClick={handleSubmit}
+                className="flex-1 px-6 py-4 bg-accent text-accent-foreground font-mono text-sm uppercase tracking-widest hover:bg-accent/90 transition-colors"
+              >
+                Generate My Risk Assessment
+              </button>
+            </div>
+
+            <p className="font-mono text-[9px] text-muted-foreground/50 mt-4 text-center">
+              Your data helps us understand manufacturing challenges in India and improve our recommendations.
             </p>
           </div>
         )}

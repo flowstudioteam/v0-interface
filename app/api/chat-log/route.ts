@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { sql } from "@/lib/db"
+import { getSql } from "@/lib/db"
 
 export async function POST(req: NextRequest) {
   try {
@@ -10,13 +10,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ok: false, error: "question is required" }, { status: 400 })
     }
 
-    await sql`
+    await getSql()`
       INSERT INTO chat_interactions (session_id, question, answer, question_type)
       VALUES (${sessionId ?? null}, ${question}, ${answer ?? null}, ${questionType ?? "custom"})
     `
 
     if (sessionId) {
-      await sql`
+      await getSql()`
         INSERT INTO page_events (session_id, event_type, page_path, metadata)
         VALUES (${sessionId}, 'chat_question', '/', ${JSON.stringify({ question: question.slice(0, 100), questionType })})
       `

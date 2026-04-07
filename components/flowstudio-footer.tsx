@@ -51,63 +51,23 @@ export default function FlowStudioFooter() {
         </div>
       </div>
 
-      {/* Main footer columns */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-10 md:py-12 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-10">
-        {/* Brand */}
-        <div className="col-span-2 md:col-span-1">
+      {/* Main footer — simplified: brand, bio, and contact only */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-10 md:py-12 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+        {/* Brand + Bio */}
+        <div>
           <span
             className="font-[family-name:var(--font-display)] text-2xl text-foreground tracking-widest block mb-4"
             style={{ letterSpacing: "0.1em" }}
           >
-            FLOWSTUDIO
+            flowstudio
           </span>
-          <p className="font-sans text-xs text-muted-foreground leading-relaxed max-w-[220px]">
-            AI systems for Indian manufacturing SMBs. One hard workflow at a time.
+          <p className="font-sans text-sm text-muted-foreground leading-relaxed max-w-md">
+            We build and deploy AI systems for manufacturing SMBs in India, focused on real operational workflows instead of surface-level software layers. Our approach is deep vertical integration so AI can work inside the business, not just around it.
           </p>
-        </div>
-
-        {/* Solutions */}
-        <div>
-          <p className="font-mono text-[10px] tracking-[0.2em] text-muted-foreground uppercase mb-4">
-            Solutions
-          </p>
-          <ul className="space-y-2.5">
-            {["Production Control", "Predictive Maintenance", "Quality Control", "Inventory Planning", "AI Agents"].map((item) => (
-              <li key={item}>
-                <span className="font-sans text-xs text-muted-foreground hover:text-foreground transition-colors cursor-default">
-                  {item}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Company */}
-        <div>
-          <p className="font-mono text-[10px] tracking-[0.2em] text-muted-foreground uppercase mb-4">
-            Company
-          </p>
-          <ul className="space-y-2.5">
-            {[
-              { label: "About", href: "#hero" },
-              { label: "Risk Analysis", href: "#risk-assessment" },
-              { label: "Research", href: "#market" },
-              { label: "Assessment", href: "#assessment" },
-            ].map(({ label, href }) => (
-              <li key={label}>
-                <a
-                  href={href}
-                  className="font-sans text-xs text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  {label}
-                </a>
-              </li>
-            ))}
-          </ul>
         </div>
 
         {/* Contact */}
-        <div>
+        <div className="md:text-right">
           <p className="font-mono text-[10px] tracking-[0.2em] text-muted-foreground uppercase mb-4">
             Contact
           </p>

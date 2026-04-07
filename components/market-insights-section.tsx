@@ -4,8 +4,11 @@ import { useState, useRef, useEffect } from "react"
 import { cn } from "@/lib/utils"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import useSWR from "swr"
 
 gsap.registerPlugin(ScrollTrigger)
+
+const fetcher = (url: string) => fetch(url).then(r => r.json())
 
 const marketStats = [
   {
@@ -152,7 +155,19 @@ const adoptionBarriers = [
 export function MarketInsightsSection() {
   const sectionRef = useRef<HTMLElement>(null)
   const headerRef = useRef<HTMLDivElement>(null)
-  const [activeTab, setActiveTab] = useState<"stats" | "sources" | "barriers">("stats")
+  const [activeTab, setActiveTab] = useState<"stats" | "case-studies" | "regional" | "sources" | "barriers">("stats")
+  
+  // Fetch case studies and regional insights from API
+  const { data: caseStudies, isLoading: caseStudiesLoading } = useSWR(
+    '/api/knowledge/case-studies',
+    fetcher,
+    { revalidateOnFocus: false }
+  )
+  const { data: regionalData, isLoading: regionalLoading } = useSWR(
+    '/api/knowledge/regional-insights',
+    fetcher,
+    { revalidateOnFocus: false }
+  )
 
   useEffect(() => {
     if (!sectionRef.current || !headerRef.current) return
@@ -195,6 +210,8 @@ export function MarketInsightsSection() {
       <div className="flex flex-wrap gap-2 mb-8 border-b border-border/30 pb-4">
         {[
           { id: "stats", label: "Market Stats" },
+          { id: "case-studies", label: "Case Studies" },
+          { id: "regional", label: "Regional Insights" },
           { id: "sources", label: "Research Library" },
           { id: "barriers", label: "Adoption Barriers" },
         ].map((tab) => (
@@ -235,6 +252,102 @@ export function MarketInsightsSection() {
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "case-studies" && (
+          <div className="space-y-4">
+            {caseStudiesLoading ? (
+              <div className="text-center py-12">
+                <p className="font-mono text-sm text-muted-foreground">Loading case studies...</p>
+              </div>
+            ) : caseStudies?.caseStudies && caseStudies.caseStudies.length > 0 ? (
+              caseStudies.caseStudies.map((study: any, index: number) => (
+                <div key={index} className="border border-border/40 p-6 bg-card/30">
+                  <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-4">
+                    <div>
+                      <h4 className="font-[var(--font-bebas)] text-lg tracking-tight text-foreground">{study.title}</h4>
+                      <p className="font-mono text-[10px] text-muted-foreground mt-1">
+                        {study.company_name} • {study.location_city}, {study.location_state}
+                      </p>
+                    </div>
+                    <div className="flex-shrink-0">
+                      <span className="inline-block px-3 py-1 bg-accent/10 border border-accent/30 rounded font-mono text-[10px] uppercase tracking-widest text-accent">
+                        {study.payback_period_months} mo ROI
+                      </span>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4 py-4 border-y border-border/20">
+                    {study.efficiency_gain_percent > 0 && (
+                      <div>
+                        <span className="font-mono text-[10px] text-muted-foreground block">Efficiency</span>
+                        <span className="font-[var(--font-bebas)] text-xl text-accent">{study.efficiency_gain_percent}%</span>
+                      </div>
+                    )}
+                    {study.cost_reduction_percent > 0 && (
+                      <div>
+                        <span className="font-mono text-[10px] text-muted-foreground block">Cost Savings</span>
+                        <span className="font-[var(--font-bebas)] text-xl text-accent">{study.cost_reduction_percent}%</span>
+                      </div>
+                    )}
+                    {study.quality_improvement_percent > 0 && (
+                      <div>
+                        <span className="font-mono text-[10px] text-muted-foreground block">Quality</span>
+                        <span className="font-[var(--font-bebas)] text-xl text-accent">{study.quality_improvement_percent}%</span>
+                      </div>
+                    )}
+                    {study.roi_percent > 0 && (
+                      <div>
+                        <span className="font-mono text-[10px] text-muted-foreground block">ROI</span>
+                        <span className="font-[var(--font-bebas)] text-xl text-accent">{study.roi_percent}%</span>
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <p className="font-mono text-xs text-muted-foreground mb-2"><strong>Challenge:</strong> {study.challenge_summary}</p>
+                    <p className="font-mono text-xs text-muted-foreground mb-2"><strong>Solution:</strong> {study.solution_description}</p>
+                    <p className="font-mono text-xs text-muted-foreground"><strong>Outcome:</strong> {study.outcome_summary}</p>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="text-center py-12 border border-border/40 p-6 bg-card/30">
+                <p className="font-mono text-sm text-muted-foreground">No case studies available yet.</p>
+              </div>
+            )}
+          </div>
+        )}
+
+        {activeTab === "regional" && (
+          <div className="space-y-4">
+            {regionalLoading ? (
+              <div className="text-center py-12">
+                <p className="font-mono text-sm text-muted-foreground">Loading regional insights...</p>
+              </div>
+            ) : regionalData?.insights && regionalData.insights.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {regionalData.insights.map((region: any, index: number) => (
+                  <div key={index} className="border border-border/40 p-6 bg-card/30">
+                    <h4 className="font-[var(--font-bebas)] text-xl tracking-tight text-accent mb-3">{region.state}</h4>
+                    <div className="space-y-2 mb-4">
+                      {region.metrics?.map((metric: any, i: number) => (
+                        <div key={i} className="flex justify-between items-center text-sm">
+                          <span className="font-mono text-[10px] text-muted-foreground">{metric.name}</span>
+                          <span className="font-[var(--font-bebas)] text-accent">{metric.value}</span>
+                        </div>
+                      ))}
+                    </div>
+                    {region.description && (
+                      <p className="font-mono text-xs text-muted-foreground leading-relaxed">{region.description}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12 border border-border/40 p-6 bg-card/30">
+                <p className="font-mono text-sm text-muted-foreground">Regional insights coming soon.</p>
+              </div>
+            )}
           </div>
         )}
 

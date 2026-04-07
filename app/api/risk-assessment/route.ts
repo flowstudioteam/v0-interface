@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server"
-import { sql } from "@/lib/db"
+import { getSql } from "@/lib/db"
 
 export const maxDuration = 60
 
 // ---------------------------------------------------------------------------
 // RESEARCH-BACKED BENCHMARKS — all numbers sourced from named publications.
 // The math is done in TypeScript (server-side), NOT by the LLM.
-// ZAI is only used to generate the written narrative (methodology text,
+// AI is only used to generate the written narrative (methodology text,
 // recommendation text). Every ₹ figure is computed below from these constants.
 // ---------------------------------------------------------------------------
 
@@ -111,12 +111,28 @@ type AssessmentInput = {
   industry: string
   selectedProblems: string[]
   sessionId?: string
+  // Lead capture fields
+  companyName?: string
+  contactName?: string
+  contactEmail?: string
+  contactPhone?: string
+  city?: string
+  state?: string
+  // Market research fields
+  traditionalIssues?: string[]
+  estimatedLossCr?: number
+  currentSolutions?: string
+  biggestChallenge?: string
 }
 
 export async function POST(req: NextRequest) {
   try {
     const input: AssessmentInput = await req.json()
-    const { annualRevenueCr, employeeCount, industry, selectedProblems, sessionId } = input
+    const { 
+      annualRevenueCr, employeeCount, industry, selectedProblems, sessionId,
+      companyName, contactName, contactEmail, contactPhone, city, state,
+      traditionalIssues, estimatedLossCr, currentSolutions, biggestChallenge
+    } = input
 
     if (!annualRevenueCr || !employeeCount || !industry || !selectedProblems?.length) {
       return NextResponse.json(
@@ -127,7 +143,7 @@ export async function POST(req: NextRequest) {
 
     const apiKey = process.env.ZAI_API_KEY
     if (!apiKey) {
-      return NextResponse.json({ error: "ZAI API key not configured" }, { status: 500 })
+      return NextResponse.json({ error: "AI service is temporarily unavailable" }, { status: 503 })
     }
 
     // -----------------------------------------------------------------------
@@ -200,7 +216,7 @@ export async function POST(req: NextRequest) {
     }
 
     // -----------------------------------------------------------------------
-    // STEP 2: ZAI writes ONLY the narrative — methodology text + recommendations
+    // STEP 2: AI writes ONLY the narrative — methodology text + recommendations
     // All ₹ figures in the narrative are injected from computedNumbers above
     // -----------------------------------------------------------------------
     const narrativePrompt = `You are a manufacturing AI consultant writing a brief, professional assessment narrative for an Indian SMB plant owner.
@@ -240,7 +256,7 @@ Rules:
 - Never invent ₹ figures. Only use the pre-computed figures provided above.
 - Keep language direct and practical for a plant owner.`
 
-    const zaiRes = await fetch("https://api.z.ai/api/paas/v4/chat/completions", {
+    const aiRes = await fetch("https://api.z.ai/api/paas/v4/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -274,10 +290,10 @@ Rules:
       source: calc.source,
     }))
 
-    if (zaiRes.ok) {
+    if (aiRes.ok) {
       try {
-        const zaiData = await zaiRes.json()
-        const content = zaiData.choices?.[0]?.message?.content
+        const aiData = await aiRes.json()
+        const content = aiData.choices?.[0]?.message?.content
         if (content) {
           const jsonStr = content.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim()
           const parsed = JSON.parse(jsonStr)
@@ -307,22 +323,37 @@ Rules:
       dataSources: computedNumbers.dataSources,
     }
 
-    // Save to database — column names match the risk_assessments table schema
-    if (sessionId) {
-      await sql`
+    // Save to database for sales pipeline — includes all lead + market research data
+    try {
+      await getSql()`
         INSERT INTO risk_assessments (
           session_id, annual_turnover_cr, employee_count, industry,
-          primary_bottleneck, secondary_bottleneck, report
+          primary_bottleneck, secondary_bottleneck, report,
+          company_name, contact_name, contact_email, contact_phone,
+          city, state, traditional_issues, estimated_loss_cr,
+          current_solutions, biggest_challenge
         ) VALUES (
-          ${sessionId},
+          ${sessionId ?? null},
           ${annualRevenueCr},
           ${employeeCount},
           ${industry},
           ${selectedProblems[0] ?? null},
           ${selectedProblems[1] ?? null},
-          ${JSON.stringify(assessment)}
+          ${JSON.stringify(assessment)},
+          ${companyName ?? null},
+          ${contactName ?? null},
+          ${contactEmail ?? null},
+          ${contactPhone ?? null},
+          ${city ?? null},
+          ${state ?? null},
+          ${traditionalIssues ? JSON.stringify(traditionalIssues) : null},
+          ${estimatedLossCr ?? null},
+          ${currentSolutions ?? null},
+          ${biggestChallenge ?? null}
         )
-      `.catch((err) => console.error("[risk-assessment] DB error:", err))
+      `
+    } catch (err) {
+      console.error("[risk-assessment] DB error:", err)
     }
 
     return NextResponse.json({ success: true, assessment })

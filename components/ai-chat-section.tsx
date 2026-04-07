@@ -136,7 +136,7 @@ export function AIChatSection() {
             ASK ABOUT<br className="hidden sm:block" />AI IN MANUFACTURING
           </h2>
           <p className="font-mono text-xs sm:text-sm text-muted-foreground max-w-lg leading-relaxed">
-            Real answers grounded in Indian manufacturing data. Powered by ZAI.
+            Real answers grounded in Indian manufacturing data and research.
           </p>
         </div>
 

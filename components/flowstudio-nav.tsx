@@ -8,9 +8,8 @@ import { trackCalendarClick } from "@/lib/use-tracker"
 const navItems = [
   { id: "hero", label: "Home" },
   { id: "problems", label: "Bottlenecks" },
-  { id: "risk-assessment", label: "Risk Analysis" },
+  { id: "risk-assessment", label: "Risk Assessment" },
   { id: "market", label: "Research" },
-  { id: "assessment", label: "Assessment" },
   { id: "chat", label: "Ask AI" },
   { id: "contact", label: "Contact" },
 ]

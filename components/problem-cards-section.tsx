@@ -214,10 +214,10 @@ export function ProblemCardsSection() {
             {selectedProblems.length}/3 Selected
           </span>
           <a
-            href="#assessment"
+            href="#risk-assessment"
             className="font-mono text-xs uppercase tracking-widest text-foreground hover:text-accent transition-colors"
           >
-            Continue to Assessment →
+            Continue to Risk Assessment →
           </a>
         </div>
       )}
