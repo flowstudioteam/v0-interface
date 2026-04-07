@@ -53,9 +53,8 @@ export function FlowStudioHero() {
           AI Systems for Indian Manufacturing SMBs
         </h2>
 
-        <p className="mt-6 max-w-lg font-mono text-sm text-muted-foreground leading-relaxed">
-          We build and deploy AI systems for manufacturing SMBs in India. Deep vertical integration 
-          into production control, predictive maintenance, quality control, and planning.
+        <p className="mt-6 max-w-xl font-mono text-sm text-muted-foreground leading-relaxed">
+          We build and deploy AI systems for manufacturing SMBs in India, focused on real operational workflows instead of surface-level software layers. Our approach is deep vertical integration across production control, predictive maintenance, and quality planning so AI can work inside the business, not just around it.
         </p>
 
         <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
